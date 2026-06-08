@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uma Última Vez ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --dark:#080514;--bg:#0f0921;--pink:#ff6b9d;--pink2:#ff8fb3;
+  --purple:#a855f7;--lavender:#c4b5fd;--gold:#fbbf24;--text:#f0e6ff;
+  --dim:#7c5cbf;--green:#16a34a;--glow:rgba(255,107,157,.25);
+}
+body{
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,#1a0a3e,#080514);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  font-family:'Press Start 2P',monospace;overflow:hidden;
+}
+#game{
+  width:min(600px,100vw);aspect-ratio:16/10;position:relative;
+  background:var(--bg);border:2px solid var(--pink);
+  box-shadow:0 0 0 1px rgba(255,107,157,.2),0 0 24px var(--glow),0 0 80px rgba(168,85,247,.1),inset 0 0 40px rgba(0,0,0,.6);
+  overflow:hidden;user-select:none;
+}
+#stars{position:absolute;inset:0;z-index:1;pointer-events:none}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d,2s) ease-in-out infinite;animation-delay:var(--dl,0s)}
+@keyframes twinkle{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.85;transform:scale(1.6)}}
+#crt{position:absolute;inset:0;pointer-events:none;z-index:91;background:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(0,0,0,.06) 1px,rgba(0,0,0,.06) 2px)}
+#vignette{position:absolute;inset:0;pointer-events:none;z-index:90;background:radial-gradient(ellipse 90% 90% at 50% 50%,transparent 60%,rgba(0,0,0,.5) 100%)}
+#fade{position:absolute;inset:0;background:#080514;opacity:0;pointer-events:none;z-index:85;transition:opacity .35s}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}
+.screen.on{display:flex}
+.fheart{position:absolute;pointer-events:none;animation:fh var(--d,3s) ease-in-out infinite;animation-delay:var(--dl,0s);font-size:14px;opacity:.7}
+@keyframes fh{0%,100%{transform:translateY(0) rotate(-8deg);opacity:.5}50%{transform:translateY(-20px) rotate(8deg);opacity:1}}
+
+/* TITLE */
+#title-screen{gap:10px;cursor:pointer}
+.t-pretitle{font-size:5px;color:var(--dim);letter-spacing:4px;text-transform:uppercase}
+.t-title{font-size:clamp(12px,4vw,18px);color:var(--text);text-align:center;line-height:1.7;text-shadow:0 0 20px var(--purple),0 0 40px var(--pink)}
+.t-heart{font-size:26px;margin:2px 0}
+.t-blink{font-size:5px;color:var(--gold);animation:blink 1.2s steps(1) infinite;letter-spacing:1px}
+@keyframes blink{50%{opacity:0}}
+
+/* SETUP */
+#setup-screen{gap:14px;padding:24px}
+.s-label{font-size:5px;color:var(--dim);letter-spacing:3px}
+.s-q{font-size:8px;color:var(--text);text-align:center;line-height:2.2}
+.s-hint{font-size:5px;color:var(--dim);font-style:italic;margin-top:-6px;text-align:center}
+#ninp{background:transparent;border:0;border-bottom:2px solid var(--pink);color:var(--text);font-family:'Press Start 2P',monospace;font-size:10px;width:180px;padding:6px 4px;text-align:center;outline:none;caret-color:var(--pink)}
+#ninp::placeholder{color:var(--dim);font-size:7px}
+.px-btn{font-family:'Press Start 2P',monospace;font-size:7px;padding:8px 18px;background:var(--pink);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 0 #9c2f57,0 0 12px rgba(255,107,157,.3);transition:transform .1s}
+.px-btn:hover{transform:translateY(-1px)}
+.px-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #9c2f57}
+
+/* GAME SCREEN */
+#game-screen{justify-content:flex-end;padding:0;cursor:pointer}
+#scene{position:absolute;top:0;left:0;right:0;height:63%;overflow:hidden;transition:background 1.2s ease}
+#scene svg{position:absolute;bottom:0;left:0;width:100%;height:100%;pointer-events:none;image-rendering:pixelated}
+.char{position:absolute;bottom:0;image-rendering:pixelated;transition:opacity .6s ease,left 1.2s cubic-bezier(.25,.46,.45,.94)}
+#hero{height:56%;left:26%}
+#girl{height:56%;right:18%;opacity:0}
+#girl-glow{position:absolute;right:21%;top:5%;font-size:9px;opacity:0;animation:fh 2s ease-in-out infinite;pointer-events:none;transition:opacity .5s}
+#dbox{position:relative;width:100%;height:39%;background:rgba(8,5,20,.97);border-top:2px solid var(--pink);padding:8px 14px 6px;display:flex;flex-direction:column;gap:5px;z-index:20}
+#chap{position:absolute;top:-14px;left:10px;background:var(--bg);border:1px solid var(--pink);border-bottom:none;font-size:5px;color:var(--dim);padding:2px 8px;letter-spacing:1px}
+#speaker{font-size:6px;color:var(--pink);text-transform:uppercase;letter-spacing:2px;min-height:12px}
+#dtxt{font-size:6.5px;color:var(--text);line-height:2;flex:1;overflow:hidden}
+#nxt{align-self:flex-end;font-size:5px;color:var(--gold);animation:blink .8s steps(1) infinite;display:none}
+#hbar{position:absolute;top:6px;right:8px;font-size:8px;z-index:30;letter-spacing:1px}
+#charisma-bar{position:absolute;top:6px;left:8px;font-size:5px;color:var(--lavender);z-index:30;display:none}
+
+/* ══ FRUIT NINJA MINI-GAME ══ */
+#ninja-screen{position:absolute;inset:0;background:#0a0520;z-index:50;display:none;flex-direction:column}
+#ninja-screen.on{display:flex}
+#ninja-hud{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;border-bottom:1px solid var(--pink);font-size:6px;color:var(--text);background:rgba(8,5,20,.8);z-index:2}
+#ninja-canvas{flex:1;width:100%;cursor:crosshair;touch-action:none}
+#ninja-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(8,5,20,.92);z-index:10;gap:12px;display:none}
+#ninja-msg.on{display:flex}
+#ninja-msg-txt{font-size:9px;color:var(--pink);text-align:center;line-height:2.2}
+#ninja-msg-sub{font-size:6px;color:var(--dim);text-align:center;line-height:2}
+
+/* ══ DOKI DOKI WORD CHOICE ══ */
+#doki-screen{position:absolute;inset:0;background:linear-gradient(180deg,#0d0720 0%,#1a0a3e 100%);z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px}
+#doki-screen.on{display:flex}
+#doki-title{font-size:7px;color:var(--pink);letter-spacing:2px;text-align:center}
+#doki-instruction{font-size:5px;color:var(--dim);text-align:center;line-height:2}
+#doki-words{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:420px}
+.dword{font-family:'Press Start 2P',monospace;font-size:6px;padding:6px 12px;background:rgba(255,107,157,.08);color:var(--lavender);border:1px solid var(--dim);cursor:pointer;transition:all .2s}
+.dword:hover{background:rgba(255,107,157,.25);color:var(--pink);border-color:var(--pink);transform:scale(1.08)}
+.dword.picked{background:rgba(255,107,157,.4);color:#fff;border-color:var(--pink2);transform:scale(1.05)}
+#doki-phrase-box{min-height:40px;border:1px solid var(--dim);background:rgba(0,0,0,.3);padding:8px 12px;font-size:6px;color:var(--text);text-align:center;line-height:2.2;width:100%;max-width:420px}
+#doki-btn{opacity:0;pointer-events:none;transition:opacity .3s}
+#doki-btn.ready{opacity:1;pointer-events:auto}
+#carisma-display{font-size:6px;color:var(--gold);text-align:center;display:none}
+
+/* ══ DINO RUN ══ */
+#dino-screen{position:absolute;inset:0;background:#08051a;z-index:50;display:none;flex-direction:column}
+#dino-screen.on{display:flex}
+#dino-hud{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;border-bottom:1px solid var(--purple);font-size:6px;color:var(--lavender);background:rgba(8,5,20,.8)}
+#dino-canvas{flex:1;width:100%;cursor:pointer}
+#dino-msg{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(8,5,20,.92);z-index:10;gap:12px}
+#dino-msg.on{display:flex}
+#dino-msg-txt{font-size:9px;color:var(--purple);text-align:center;line-height:2.2}
+#dino-msg-sub{font-size:6px;color:var(--dim);text-align:center;line-height:2}
+
+/* CHOICE + ENDING */
+#choice-screen{gap:14px;padding:20px;overflow:hidden;position:relative}
+#choice-q{font-size:8px;color:var(--text);text-align:center;line-height:2.4}
+#btn-yes{font-family:'Press Start 2P',monospace;font-size:7px;padding:9px 22px;background:var(--pink);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 0 #9c2f57,0 0 16px rgba(255,107,157,.4);transition:all .2s}
+#btn-yes:hover{filter:brightness(1.15);transform:scale(1.06)}
+#btn-no{font-family:'Press Start 2P',monospace;font-size:6px;padding:8px 18px;background:transparent;color:var(--dim);border:2px solid var(--dim);cursor:pointer;transition:all .18s}
+#btn-no:hover{color:var(--text);border-color:var(--lavender)}
+#ending-screen{gap:10px;padding:20px}
+#end-em{font-size:30px;animation:fh 2s ease-in-out infinite}
+#end-txt{font-size:7px;color:var(--pink);text-align:center;line-height:2.5;text-shadow:0 0 12px rgba(255,107,157,.5)}
+.par{position:absolute;pointer-events:none;z-index:95;animation:pfly 1.8s ease-out forwards}
+@keyframes pfly{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-130px) scale(.2);opacity:0}}
+</style>
+</head>
+<body>
+<div id="game">
+  <div id="stars"></div>
+  <div id="crt"></div>
+  <div id="vignette"></div>
+  <div id="fade"></div>
+
+  <!-- TITLE -->
+  <div class="screen on" id="title-screen">
+    <div class="fheart" style="left:10%;top:18%;--d:2.1s">💗</div>
+    <div class="fheart" style="right:12%;top:25%;--d:2.7s;--dl:.4s">💕</div>
+    <div class="fheart" style="left:18%;bottom:22%;--d:1.9s;--dl:.8s">✨</div>
+    <div class="fheart" style="right:16%;bottom:18%;--d:3.0s;--dl:.2s">💝</div>
+    <div class="fheart" style="left:42%;top:12%;--d:2.4s;--dl:.6s">⭐</div>
+    <div class="t-pretitle">— uma história de coragem —</div>
+    <div class="t-title">Uma<br>Última Vez</div>
+    <div class="t-heart">❤️</div>
+    <div class="t-blink">▶ toque para começar ◀</div>
+  </div>
+
+  <!-- SETUP -->
+  <div class="screen" id="setup-screen">
+    <div class="s-label">antes de começar...</div>
+    <div class="s-q">Qual é o seu nome?</div>
+    <div class="s-hint">haha já sei qual é 😏</div>
+    <input id="ninp" type="text" maxlength="12" placeholder="nome..." autocomplete="off" spellcheck="false">
+    <button class="px-btn" id="go-btn">Confirmar ➤</button>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div class="screen" id="game-screen">
+    <div id="scene">
+      <svg id="scene-svg" viewBox="0 0 580 230" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <!-- CITY NIGHT -->
+        <g id="gCity" opacity="1" style="transition:opacity 1s">
+          <rect x="30" y="15" width="2" height="2" fill="white" opacity=".6"/>
+          <rect x="120" y="8" width="2" height="2" fill="white" opacity=".8"/>
+          <rect x="210" y="20" width="2" height="2" fill="white" opacity=".5"/>
+          <rect x="350" y="10" width="2" height="2" fill="white" opacity=".7"/>
+          <rect x="470" y="18" width="2" height="2" fill="white" opacity=".6"/>
+          <rect x="530" y="6" width="2" height="2" fill="white" opacity=".9"/>
+          <circle cx="500" cy="35" r="14" fill="#fef9c3" opacity=".4"/>
+          <rect x="0" y="105" width="70" height="125" fill="#0f0726"/>
+          <rect x="8" y="90" width="52" height="140" fill="#1a0a3e"/>
+          <rect x="75" y="70" width="58" height="160" fill="#0a0520"/>
+          <rect x="140" y="115" width="85" height="115" fill="#130730"/>
+          <rect x="232" y="65" width="52" height="165" fill="#0f0726"/>
+          <rect x="292" y="95" width="68" height="135" fill="#1a0a3e"/>
+          <rect x="368" y="80" width="62" height="150" fill="#0a0520"/>
+          <rect x="438" y="110" width="90" height="120" fill="#130730"/>
+          <rect x="530" y="90" width="50" height="140" fill="#0f0726"/>
+          <rect x="14" y="98" width="6" height="5" fill="#fbbf24" opacity=".75"/>
+          <rect x="24" y="98" width="6" height="5" fill="#c4b5fd" opacity=".6"/>
+          <rect x="82" y="78" width="7" height="5" fill="#fbbf24" opacity=".65"/>
+          <rect x="94" y="78" width="7" height="5" fill="#c4b5fd" opacity=".55"/>
+          <rect x="238" y="74" width="8" height="5" fill="#fbbf24" opacity=".6"/>
+          <rect x="298" y="103" width="9" height="6" fill="#fbbf24" opacity=".6"/>
+          <rect x="374" y="88" width="8" height="5" fill="#fbbf24" opacity=".55"/>
+          <rect x="0" y="222" width="580" height="8" fill="#1e0f47"/>
+          <rect x="0" y="218" width="580" height="4" fill="#170d38"/>
+          <rect x="40" y="220" width="30" height="2" fill="#fbbf24" opacity=".3"/>
+          <rect x="150" y="220" width="30" height="2" fill="#fbbf24" opacity=".3"/>
+          <rect x="270" y="220" width="30" height="2" fill="#fbbf24" opacity=".3"/>
+        </g>
+        <!-- PARK -->
+        <g id="gPark" opacity="0" style="transition:opacity 1s">
+          <rect x="0" y="0" width="580" height="60" fill="#3b0764" opacity=".4"/>
+          <rect x="0" y="60" width="580" height="60" fill="#7e1d48" opacity=".3"/>
+          <circle cx="290" cy="55" r="28" fill="#f59e0b" opacity=".35"/>
+          <circle cx="290" cy="55" r="20" fill="#fbbf24" opacity=".4"/>
+          <rect x="0" y="148" width="580" height="82" fill="#14532d"/>
+          <rect x="0" y="165" width="580" height="65" fill="#0f3d20"/>
+          <rect x="200" y="148" width="180" height="82" fill="#92400e" opacity=".5"/>
+          <rect x="10" y="75" width="32" height="100" fill="#14532d"/>
+          <rect x="0" y="45" width="52" height="50" fill="#166534"/>
+          <rect x="5" y="28" width="45" height="30" fill="#15803d"/>
+          <rect x="55" y="90" width="28" height="85" fill="#14532d"/>
+          <rect x="42" y="62" width="52" height="44" fill="#166534"/>
+          <rect x="510" y="80" width="32" height="95" fill="#14532d"/>
+          <rect x="500" y="50" width="52" height="50" fill="#166534"/>
+          <rect x="462" y="95" width="28" height="80" fill="#14532d"/>
+          <rect x="450" y="68" width="52" height="44" fill="#166534"/>
+          <rect x="155" y="155" width="4" height="4" fill="#fbbf24" opacity=".8"/>
+          <rect x="170" y="160" width="3" height="3" fill="#f472b6" opacity=".8"/>
+          <rect x="395" y="158" width="4" height="4" fill="#fbbf24" opacity=".8"/>
+        </g>
+        <!-- CAFE -->
+        <g id="gCafe" opacity="0" style="transition:opacity 1s">
+          <rect x="0" y="0" width="580" height="230" fill="#1a0a0a" opacity=".3"/>
+          <rect x="60" y="60" width="460" height="170" fill="#2d1208"/>
+          <rect x="60" y="60" width="460" height="8" fill="#4a1e0e"/>
+          <rect x="80" y="80" width="180" height="120" fill="#1a0a04"/>
+          <rect x="320" y="80" width="180" height="120" fill="#1a0a04"/>
+          <rect x="82" y="82" width="176" height="2" fill="#6b2f10" opacity=".5"/>
+          <rect x="322" y="82" width="176" height="2" fill="#6b2f10" opacity=".5"/>
+          <rect x="90" y="92" width="80" height="60" fill="#2d1208"/>
+          <rect x="200" y="92" width="50" height="80" fill="#2d1208"/>
+          <rect x="100" y="95" width="60" height="5" fill="#6b2f10" opacity=".7"/>
+          <rect x="100" y="108" width="60" height="3" fill="#6b2f10" opacity=".5"/>
+          <rect x="330" y="92" width="80" height="60" fill="#2d1208"/>
+          <rect x="420" y="92" width="60" height="80" fill="#2d1208"/>
+          <rect x="340" y="95" width="60" height="5" fill="#6b2f10" opacity=".7"/>
+          <rect x="340" y="108" width="60" height="3" fill="#6b2f10" opacity=".5"/>
+          <rect x="120" y="140" width="340" height="4" fill="#6b2f10" opacity=".6"/>
+          <circle cx="220" cy="175" r="10" fill="#3d1a08"/>
+          <circle cx="360" cy="175" r="10" fill="#3d1a08"/>
+          <rect x="210" y="172" width="20" height="6" fill="#2d1208"/>
+          <rect x="350" y="172" width="20" height="6" fill="#2d1208"/>
+          <rect x="40" y="45" width="500" height="15" fill="#4a1e0e"/>
+          <rect x="40" y="40" width="500" height="5" fill="#6b2f10"/>
+          <rect x="220" y="20" width="8" height="25" fill="#6b2f10"/>
+          <rect x="352" y="20" width="8" height="25" fill="#6b2f10"/>
+          <circle cx="224" cy="18" r="6" fill="#fbbf24" opacity=".6"/>
+          <circle cx="356" cy="18" r="6" fill="#fbbf24" opacity=".6"/>
+          <rect x="0" y="200" width="580" height="30" fill="#1a0a04"/>
+          <rect x="60" y="192" width="460" height="10" fill="#2d1208"/>
+        </g>
+        <!-- MEMORY -->
+        <g id="gMem" opacity="0" style="transition:opacity 1s">
+          <circle cx="80" cy="90" r="40" fill="#ff6b9d" opacity=".06"/>
+          <circle cx="200" cy="60" r="55" fill="#c084fc" opacity=".08"/>
+          <circle cx="380" cy="80" r="45" fill="#fbbf24" opacity=".06"/>
+          <circle cx="500" cy="100" r="35" fill="#ff6b9d" opacity=".07"/>
+          <rect x="50" y="30" width="3" height="3" fill="white" opacity=".5"/>
+          <rect x="150" y="20" width="2" height="2" fill="white" opacity=".7"/>
+          <rect x="320" y="15" width="3" height="3" fill="white" opacity=".6"/>
+          <rect x="480" y="25" width="2" height="2" fill="white" opacity=".5"/>
+          <rect x="0" y="195" width="580" height="35" fill="#431236" opacity=".5"/>
+        </g>
+      </svg>
+      <!-- HERO -->
+      <svg class="char" id="hero" viewBox="0 0 16 32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="0" width="8" height="2" fill="#4a2c0a"/>
+        <rect x="3" y="1" width="10" height="3" fill="#5c3811"/>
+        <rect x="2" y="3" width="12" height="9" fill="#fcd5b0"/>
+        <rect x="4" y="5" width="2" height="2" fill="#2c1810"/>
+        <rect x="10" y="5" width="2" height="2" fill="#2c1810"/>
+        <rect x="6" y="9" width="4" height="1" fill="#c27060"/>
+        <rect x="2" y="12" width="12" height="9" fill="#4f46e5"/>
+        <rect x="0" y="12" width="2" height="8" fill="#4f46e5"/>
+        <rect x="14" y="12" width="2" height="8" fill="#4f46e5"/>
+        <rect x="0" y="19" width="2" height="2" fill="#fcd5b0"/>
+        <rect x="14" y="19" width="2" height="2" fill="#fcd5b0"/>
+        <rect x="2" y="21" width="12" height="7" fill="#1e293b"/>
+        <rect x="2" y="27" width="5" height="4" fill="#1e293b"/>
+        <rect x="9" y="27" width="5" height="4" fill="#1e293b"/>
+        <rect x="1" y="30" width="6" height="2" fill="#0f172a"/>
+        <rect x="9" y="30" width="6" height="2" fill="#0f172a"/>
+      </svg>
+      <!-- GIRL -->
+      <svg class="char" id="girl" viewBox="0 0 16 32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="3" width="2" height="18" fill="#be185d"/>
+        <rect x="13" y="3" width="2" height="18" fill="#be185d"/>
+        <rect x="3" y="0" width="10" height="2" fill="#e11d6a"/>
+        <rect x="2" y="1" width="12" height="4" fill="#be185d"/>
+        <rect x="3" y="3" width="10" height="9" fill="#fcd5b0"/>
+        <rect x="3" y="2" width="3" height="2" fill="#fbbf24"/>
+        <rect x="5" y="5" width="2" height="2" fill="#be185d"/>
+        <rect x="9" y="5" width="2" height="2" fill="#be185d"/>
+        <rect x="5" y="5" width="1" height="1" fill="white" opacity=".8"/>
+        <rect x="9" y="5" width="1" height="1" fill="white" opacity=".8"/>
+        <rect x="4" y="8" width="2" height="1" fill="#ffb3c6" opacity=".9"/>
+        <rect x="10" y="8" width="2" height="1" fill="#ffb3c6" opacity=".9"/>
+        <rect x="6" y="10" width="4" height="1" fill="#e05c8a"/>
+        <rect x="3" y="12" width="10" height="6" fill="#ff6b9d"/>
+        <rect x="0" y="12" width="3" height="7" fill="#fcd5b0"/>
+        <rect x="13" y="12" width="3" height="7" fill="#fcd5b0"/>
+        <rect x="2" y="18" width="12" height="6" fill="#ff8fb3"/>
+        <rect x="1" y="22" width="14" height="5" fill="#ffa8c9"/>
+        <rect x="5" y="26" width="3" height="4" fill="#fcd5b0"/>
+        <rect x="8" y="26" width="3" height="4" fill="#fcd5b0"/>
+        <rect x="4" y="29" width="4" height="3" fill="#be185d"/>
+        <rect x="8" y="29" width="4" height="3" fill="#be185d"/>
+      </svg>
+      <div id="girl-glow">💕✨</div>
+    </div>
+    <div id="dbox">
+      <div id="chap">Prólogo</div>
+      <div id="speaker"></div>
+      <div id="dtxt"></div>
+      <div id="nxt">▼ continuar</div>
+    </div>
+    <div id="hbar">❤️❤️❤️</div>
+    <div id="charisma-bar">⭐ Carisma: <span id="carisma-val">0</span></div>
+  </div>
+
+  <!-- FRUIT NINJA SCREEN -->
+  <div class="screen" id="ninja-screen">
+    <div id="ninja-hud">
+      <span>🥩 CAP. 1 — CORTE A CARNE!</span>
+      <span>Pontos: <span id="ninja-score">0</span> / <span id="ninja-goal">5</span></span>
+      <span>Vidas: <span id="ninja-lives">3</span></span>
+    </div>
+    <canvas id="ninja-canvas"></canvas>
+    <div id="ninja-msg">
+      <div id="ninja-msg-txt"></div>
+      <div id="ninja-msg-sub"></div>
+      <button class="px-btn" id="ninja-msg-btn">Continuar ➤</button>
+    </div>
+  </div>
+
+  <!-- DOKI DOKI SCREEN -->
+  <div class="screen" id="doki-screen">
+    <div id="doki-title">💬 Cap. 2 — Escolha Suas Palavras</div>
+    <div id="doki-instruction">Escolha 3 palavras para montar seu diálogo</div>
+    <div id="doki-words"></div>
+    <div id="doki-phrase-box">...</div>
+    <div id="carisma-display">⭐ +Carisma!</div>
+    <button class="px-btn" id="doki-btn">Falar ➤</button>
+  </div>
+
+  <!-- DINO SCREEN -->
+  <div class="screen" id="dino-screen">
+    <div id="dino-hud">
+      <span>🏃 CAP. 3 — ÚLTIMA CORRIDA</span>
+      <span>Dist: <span id="dino-score">0</span>m</span>
+      <span>Vidas: <span id="dino-lives">3</span></span>
+    </div>
+    <canvas id="dino-canvas"></canvas>
+    <div id="dino-msg">
+      <div id="dino-msg-txt"></div>
+      <div id="dino-msg-sub"></div>
+      <button class="px-btn" id="dino-msg-btn">Continuar ➤</button>
+    </div>
+  </div>
+
+  <!-- CHOICE -->
+  <div class="screen" id="choice-screen">
+    <div id="choice-q">Quer ir em um<br>date comigo? 🌟</div>
+    <button id="btn-yes">Sim ❤️</button>
+    <button id="btn-no" style="margin-top:6px">Não...</button>
+  </div>
+
+  <!-- ENDING -->
+  <div class="screen" id="ending-screen">
+    <div id="end-em">🌟❤️🌟</div>
+    <div id="end-txt"></div>
+    <button class="px-btn" style="font-size:5px;margin-top:14px" onclick="resetGame()">↺ recomeçar</button>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  GLOBAL STATE
+// ═══════════════════════════════════════════
+let girlName='Ela', idx=0, typing=false, ttimer=null, noBails=0, hearts=3, carisma=0;
+let AC;
+
+const BG={
+  night:'linear-gradient(180deg,#080514 0%,#0f0921 40%,#1a0a3e 100%)',
+  city:'linear-gradient(180deg,#0b0618 0%,#150d28 35%,#1e1040 75%,#2d1b69 100%)',
+  mem:'linear-gradient(180deg,#3b0726 0%,#6d1140 50%,#9d174d 100%)',
+  golden:'linear-gradient(180deg,#1a0a3e 0%,#4a1942 35%,#78350f 75%,#a16207 100%)',
+  park:'linear-gradient(180deg,#0a1f15 0%,#0f2d1a 40%,#14532d 100%)',
+  cafe:'linear-gradient(180deg,#1a0808 0%,#2d1005 40%,#1a0a04 100%)',
+};
+
+// ═══════════════════════════════════════════
+//  DIALOGUE SCRIPT
+// ═══════════════════════════════════════════
+// tag: 'ninja' triggers fruit ninja, 'doki' triggers word game, 'dino' triggers dino run
+const S=[
+  // PRE-CAP 1
+  {c:'Capítulo 1 — A Decisão',sp:'NARRADOR',bg:'night',sc:'city',hx:28,hero:true,girl:false,h:3,
+   t:'Era uma tarde como qualquer outra...'},
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'night',sc:'city',hx:28,hero:true,girl:false,
+   t:'...exceto que não era.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:24,hero:true,girl:false,
+   t:'Respira. Você sabe o que precisa fazer.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:24,hero:true,girl:false,
+   t:'Mas primeiro... você precisa merecer.'},
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'city',sc:'city',hx:24,hero:true,girl:false,
+   t:'O universo colocou um desafio em seu caminho...'},
+  {c:'Capítulo 1 — MINI-GAME',sp:'NARRADOR',bg:'city',sc:'city',hx:24,hero:true,girl:false,
+   t:'Corte as carnes que aparecem! Não deixe nenhuma cair! [Clique para jogar]',tag:'ninja'},
+
+  // AFTER NINJA — girl refuses
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'city',sc:'city',hx:20,hero:true,girl:true,
+   t:'Finalmente ele chegou até ela...'},
+  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:20,hero:true,girl:true,
+   t:'Oi, {name}... eu precisava te falar uma coisa.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:20,hero:true,girl:true,
+   t:'Eu gosto muito de você. Acho que você é incrível.'},
+  {c:'Capítulo 1',sp:'{name}',bg:'city',sc:'city',hx:20,hero:true,girl:true,isgirl:true,
+   t:'Ah... obrigada. Mas... eu não sei.'},
+  {c:'Capítulo 1',sp:'{name}',bg:'city',sc:'city',hx:20,hero:true,girl:true,isgirl:true,
+   t:'Acho que não estou pronta pra isso agora.'},
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'city',sc:'city',hx:28,hero:true,girl:false,
+   t:'Ela foi embora. Ele ficou ali, parado.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:28,hero:true,girl:false,
+   t:'Tudo bem. Eu entendo.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:28,hero:true,girl:false,
+   t:'Mas ainda tem algo que precisa ser dito.'},
+
+  // CAP 2 — CAFE / DOKI DOKI
+  {c:'Capítulo 2 — A Cafeteria',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:28,hero:true,girl:false,
+   t:'Semanas depois. Uma cafeteria no centro da cidade.'},
+  {c:'Capítulo 2',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:28,hero:true,girl:false,
+   t:'Ele a viu lá, sozinha com um livro.'},
+  {c:'Capítulo 2',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:28,hero:true,girl:false,
+   t:'O coração disparou. Mas dessa vez, ele foi com calma.'},
+  {c:'Capítulo 2 — ESCOLHA',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,
+   t:'Escolha as palavras certas pra ela... [Clique para abrir o diálogo]',tag:'doki'},
+  // after doki
+  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
+   t:'Hahaha... você é engraçado, sabia?'},
+  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
+   t:'Mas olha... eu ainda acho que a gente é de mundos diferentes.'},
+  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
+   t:'Sinto muito.'},
+  {c:'Capítulo 2',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:false,
+   t:'Tudo bem. Eu entendo isso também.'},
+  {c:'Capítulo 2',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:false,
+   t:'Mas vai ter uma última vez.'},
+
+  // CAP 3 — DISCURSO + DINO
+  {c:'Capítulo 3 — A Última Vez',sp:'NARRADOR',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
+   t:'Ele passou semanas pensando.'},
+  {c:'Capítulo 3',sp:'NARRADOR',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
+   t:'Pensando em tudo. Nos momentos. No que sentiu.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
+   t:'A gente é de mundos diferentes. Isso eu aceito.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
+   t:'Mas mundos diferentes às vezes se encontram.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
+   t:'E quando se encontram... pode ser algo bonito.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
+   t:'Não precisa ser eterno. Não precisa ser perfeito.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
+   t:'Só precisa ser real.'},
+  {c:'Capítulo 3',sp:'NARRADOR',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
+   t:'Com esse pensamento, ele correu.'},
+  {c:'Capítulo 3 — CORRIDA',sp:'NARRADOR',bg:'golden',sc:'park',hx:28,hero:true,girl:false,
+   t:'Corra até ela! Desvie dos obstáculos! [Clique para jogar]',tag:'dino'},
+  // final encounter
+  {c:'Capítulo 3 — O Fim',sp:'NARRADOR',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
+   t:'Ele chegou até ela, sem fôlego.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
+   t:'Oi, {name}.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
+   t:'Eu sei que já falei isso antes. E eu sei que é diferente.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
+   t:'Mas tem algo em você que me faz querer tentar.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
+   t:'Não precisa ser nada sério. Só um encontro.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
+   t:'Uma chance pra gente descobrir se existe algo aqui.'},
+];
+
+// ═══════════════════════════════════════════
+//  STARS
+// ═══════════════════════════════════════════
+function buildStars(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<55;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*1.4+.4;
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${(Math.random()*2+1.5).toFixed(1)}s;--dl:${(Math.random()*2).toFixed(1)}s`;
+    c.appendChild(s);
+  }
+}
+
+// ═══════════════════════════════════════════
+//  SCREEN / FADE
+// ═══════════════════════════════════════════
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+function fadeTo(cb){
+  const f=document.getElementById('fade');
+  f.style.opacity=1;f.style.pointerEvents='all';
+  setTimeout(()=>{cb();setTimeout(()=>{f.style.opacity=0;f.style.pointerEvents='none';},50);},370);
+}
+
+// ═══════════════════════════════════════════
+//  TITLE → SETUP
+// ═══════════════════════════════════════════
+document.getElementById('title-screen').addEventListener('click',()=>{
+  show('setup-screen');
+  setTimeout(()=>document.getElementById('ninp').focus(),60);
+});
+document.getElementById('go-btn').addEventListener('click',begin);
+document.getElementById('ninp').addEventListener('keydown',e=>{if(e.key==='Enter')begin();});
+function begin(){
+  const v=document.getElementById('ninp').value.trim();
+  girlName=v||'Ela';idx=0;hearts=3;carisma=0;renderH();
+  fadeTo(()=>{show('game-screen');playScene();});
+}
+
+// ═══════════════════════════════════════════
+//  SCENE ENGINE
+// ═══════════════════════════════════════════
+function rep(t){return t.replace(/{name}/g,girlName);}
+function playScene(){
+  if(idx>=S.length){fadeTo(()=>openChoice());return;}
+  const s=S[idx];
+  if(s.h!==undefined){hearts=s.h;renderH();}
+  document.getElementById('scene').style.background=BG[s.bg]||BG.night;
+  document.getElementById('gCity').style.opacity=(s.sc==='city')?1:0;
+  document.getElementById('gPark').style.opacity=(s.sc==='park')?1:0;
+  document.getElementById('gMem').style.opacity=(s.sc==='mem')?1:0;
+  document.getElementById('gCafe').style.opacity=(s.sc==='cafe')?1:0;
+  const hero=document.getElementById('hero');
+  const girl=document.getElementById('girl');
+  hero.style.opacity=s.hero?1:0;
+  girl.style.opacity=s.girl?1:0;
+  document.getElementById('girl-glow').style.opacity=s.girl?1:0;
+  if(s.hero)hero.style.left=s.hx+'%';
+  const sp=document.getElementById('speaker');
+  if(s.isgirl){sp.textContent='♥ '+rep(s.sp||'');sp.style.color='#ff8fb3';}
+  else if(s.sp==='NARRADOR'){sp.textContent='— Narrador —';sp.style.color='#9270cc';}
+  else{sp.textContent='♥ Ele';sp.style.color='#ff6b9d';}
+  document.getElementById('chap').textContent=s.c;
+  typeText(rep(s.t));
+}
+function typeText(txt){
+  const el=document.getElementById('dtxt'),nxt=document.getElementById('nxt');
+  el.textContent='';nxt.style.display='none';
+  typing=true;let i=0;if(ttimer)clearInterval(ttimer);
+  chirp();
+  ttimer=setInterval(()=>{
+    el.textContent+=txt[i];i++;
+    if(i>=txt.length){clearInterval(ttimer);typing=false;nxt.style.display='block';}
+  },36);
+}
+document.getElementById('game-screen').addEventListener('click',()=>{
+  if(typing){
+    clearInterval(ttimer);typing=false;
+    const s=S[idx];if(s)document.getElementById('dtxt').textContent=rep(s.t);
+    document.getElementById('nxt').style.display='block';return;
+  }
+  const s=S[idx];
+  if(s&&s.tag==='ninja'){fadeTo(()=>startNinja());return;}
+  if(s&&s.tag==='doki'){fadeTo(()=>startDoki());return;}
+  if(s&&s.tag==='dino'){fadeTo(()=>startDino());return;}
+  idx++;
+  if(idx>=S.length)fadeTo(()=>openChoice());
+  else playScene();
+});
+function renderH(){
+  document.getElementById('hbar').textContent='❤️'.repeat(Math.max(0,hearts))+'🖤'.repeat(Math.max(0,3-hearts));
+}
+function updateCarisma(){
+  const el=document.getElementById('charisma-bar');
+  el.style.display='block';
+  document.getElementById('carisma-val').textContent=carisma;
+}
+
+// ═══════════════════════════════════════════
+//  FRUIT NINJA MINI-GAME
+// ═══════════════════════════════════════════
+let ninjaState={};
+function startNinja(){
+  show('ninja-screen');
+  document.getElementById('ninja-msg').classList.remove('on');
+  const canvas=document.getElementById('ninja-canvas');
+  const hud=document.getElementById('ninja-hud');
+  const W=canvas.offsetWidth,H=canvas.offsetHeight;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  const GOAL=8;
+  let score=0,lives=3,spawns=[],slices=[],gameOver=false,won=false;
+  let frame=0,spawnTimer=0;
+  document.getElementById('ninja-score').textContent=0;
+  document.getElementById('ninja-goal').textContent=GOAL;
+  document.getElementById('ninja-lives').textContent=3;
+
+  const meats=['🥩','🍖','🍗','🥓'];
+  // Slice trail
+  let mouse={x:-1,y:-1,px:-1,py:-1};
+  let trails=[];
+
+  function spawnMeat(){
+    const x=60+Math.random()*(W-120);
+    spawns.push({
+      x,y:H+40,vx:(Math.random()-.5)*3,vy:-(7+Math.random()*5),
+      em:meats[~~(Math.random()*meats.length)],
+      size:32+Math.random()*16,sliced:false,
+      rot:Math.random()*Math.PI*2,vrot:(Math.random()-.5)*0.2,
+      id:Math.random()
+    });
+  }
+
+  function drawScene(){
+    ctx.clearRect(0,0,W,H);
+    // bg gradient
+    const grad=ctx.createLinearGradient(0,0,0,H);
+    grad.addColorStop(0,'#0a0520');grad.addColorStop(1,'#1a0a3e');
+    ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+    // grid lines
+    ctx.strokeStyle='rgba(168,85,247,0.06)';ctx.lineWidth=1;
+    for(let gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
+    for(let gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+    // slash trails
+    trails=trails.filter(t=>{
+      t.life-=2;
+      ctx.beginPath();ctx.moveTo(t.x1,t.y1);ctx.lineTo(t.x2,t.y2);
+      ctx.strokeStyle=`rgba(255,107,157,${t.life/100})`;ctx.lineWidth=3;ctx.stroke();
+      return t.life>0;
+    });
+    // meats
+    spawns.forEach(m=>{
+      if(m.sliced)return;
+      ctx.save();ctx.translate(m.x,m.y);ctx.rotate(m.rot);
+      ctx.font=m.size+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(m.em,0,0);
+      ctx.restore();
+    });
+    // sliced particles
+    slices=slices.filter(p=>{
+      p.life-=3;p.y+=p.vy;p.x+=p.vx;p.vy+=0.4;
+      ctx.save();ctx.globalAlpha=p.life/100;
+      ctx.font='20px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText('✨',p.x,p.y);ctx.restore();
+      return p.life>0;
+    });
+    // score text
+    ctx.fillStyle='#ff6b9d';ctx.font="8px 'Press Start 2P'";
+    ctx.textAlign='left';ctx.fillText(`Score: ${score}/${GOAL}`,10,18);
+    ctx.textAlign='right';ctx.fillText(`Vidas: ${'❤️'.repeat(lives)}`,W-10,18);
+  }
+
+  function checkSlice(){
+    if(mouse.px<0)return;
+    const dx=mouse.x-mouse.px,dy=mouse.y-mouse.py;
+    const speed=Math.sqrt(dx*dx+dy*dy);
+    if(speed<6)return;
+    trails.push({x1:mouse.px,y1:mouse.py,x2:mouse.x,y2:mouse.y,life:80});
+    spawns.forEach(m=>{
+      if(m.sliced)return;
+      const d=Math.sqrt((m.x-mouse.x)**2+(m.y-mouse.y)**2);
+      if(d<m.size*.7){
+        m.sliced=true;score++;
+        document.getElementById('ninja-score').textContent=score;
+        for(let i=0;i<4;i++)slices.push({x:m.x,y:m.y,vx:(Math.random()-.5)*5,vy:-3-Math.random()*4,life:80});
+        chirpSlice();
+        if(score>=GOAL&&!won){won=true;endNinja(true);}
+      }
+    });
+  }
+
+  function loop(){
+    if(gameOver)return;
+    frame++;spawnTimer++;
+    // spawn every ~80 frames, faster as score increases
+    const rate=Math.max(35,80-score*4);
+    if(spawnTimer>=rate){spawnTimer=0;spawnMeat();}
+    spawns.forEach(m=>{
+      if(m.sliced)return;
+      m.x+=m.vx;m.y+=m.vy;m.vy+=0.22;m.rot+=m.vrot;
+      // missed - fell below screen
+      if(m.y>H+60&&!m.sliced){
+        m.sliced=true;lives--;
+        document.getElementById('ninja-lives').textContent=lives;
+        shakeCanvas();
+        if(lives<=0&&!won){gameOver=true;endNinja(false);return;}
+      }
+    });
+    // prune old
+    if(spawns.length>30)spawns=spawns.filter(m=>!m.sliced);
+    drawScene();
+    requestAnimationFrame(loop);
+  }
+
+  // events
+  function onMove(e){
+    const r=canvas.getBoundingClientRect();
+    const cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
+    const cy=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
+    mouse.px=mouse.x;mouse.py=mouse.y;
+    mouse.x=cx;mouse.y=cy;
+    checkSlice();
+  }
+  canvas.addEventListener('mousemove',onMove);
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();onMove(e);},{passive:false});
+  canvas.addEventListener('mouseenter',()=>{mouse.x=-1;mouse.y=-1;mouse.px=-1;mouse.py=-1;});
+
+  ninjaState.stop=()=>{gameOver=true;canvas.removeEventListener('mousemove',onMove);};
+  loop();
+
+  function shakeCanvas(){
+    canvas.style.transform='translate(3px,3px)';
+    setTimeout(()=>canvas.style.transform='',80);
+  }
+  function endNinja(success){
+    gameOver=true;ninjaState.stop&&ninjaState.stop();
+    const msg=document.getElementById('ninja-msg');
+    const txt=document.getElementById('ninja-msg-txt');
+    const sub=document.getElementById('ninja-msg-sub');
+    msg.classList.add('on');
+    if(success){
+      txt.innerHTML='🥩 CARNES CORTADAS!<br>Missão cumprida!';
+      sub.innerHTML='Você provou seu valor.<br>Agora vá até ela.';
+    } else {
+      txt.innerHTML='💔 Você não conseguiu...<br>Mas o coração nunca desiste.';
+      sub.innerHTML='A coragem não some.<br>Tente de novo!';
+    }
+    document.getElementById('ninja-msg-btn').onclick=()=>{
+      if(!success){startNinja();return;}
+      fadeTo(()=>{idx++;show('game-screen');playScene();});
+    };
+  }
+}
+
+function chirpSlice(){
+  try{
+    if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type='sawtooth';o.frequency.value=600;
+    g.gain.setValueAtTime(.04,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.12);
+    o.start();o.stop(AC.currentTime+.12);
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════
+//  DOKI DOKI WORD GAME
+// ═══════════════════════════════════════════
+const WORD_POOL=[
+  {w:'honesto',pts:3,cat:'A'},
+  {w:'gentil',pts:2,cat:'A'},
+  {w:'engraçado',pts:2,cat:'B'},
+  {w:'sincero',pts:3,cat:'A'},
+  {w:'diferente',pts:1,cat:'B'},
+  {w:'curioso',pts:2,cat:'B'},
+  {w:'sortudo',pts:1,cat:'C'},
+  {w:'intenso',pts:1,cat:'C'},
+  {w:'apaixonado',pts:2,cat:'A'},
+  {w:'calmo',pts:2,cat:'B'},
+  {w:'corajoso',pts:3,cat:'A'},
+  {w:'poético',pts:2,cat:'B'},
+];
+
+const PHRASE_TEMPLATES={
+  high:'Você é alguém realmente especial. E eu só queria que soubesse disso.',
+  mid:'Talvez a gente seja diferentes... mas isso não me faz sentir menos.',
+  low:'Eu só queria ser verdadeiro com você, mesmo que seja estranho.',
+};
+
+let dokiPicked=[];
+function startDoki(){
+  show('doki-screen');
+  dokiPicked=[];
+  document.getElementById('doki-phrase-box').textContent='...';
+  document.getElementById('doki-btn').classList.remove('ready');
+  document.getElementById('carisma-display').style.display='none';
+  const container=document.getElementById('doki-words');
+  container.innerHTML='';
+  // shuffle pool, pick 9
+  const pool=[...WORD_POOL].sort(()=>Math.random()-.5).slice(0,9);
+  pool.forEach(wp=>{
+    const btn=document.createElement('button');
+    btn.className='dword';btn.textContent=wp.w;
+    btn.dataset.pts=wp.pts;btn.dataset.w=wp.w;
+    btn.addEventListener('click',()=>dokiPick(btn,wp));
+    container.appendChild(btn);
+  });
+}
+
+function dokiPick(btn,wp){
+  if(btn.classList.contains('picked')){
+    btn.classList.remove('picked');
+    dokiPicked=dokiPicked.filter(p=>p.w!==wp.w);
+  } else {
+    if(dokiPicked.length>=3){
+      // deselect first
+      const first=dokiPicked.shift();
+      document.querySelectorAll('.dword').forEach(b=>{if(b.dataset.w===first.w)b.classList.remove('picked');});
+    }
+    btn.classList.add('picked');
+    dokiPicked.push(wp);
+  }
+  updateDokiPhrase();
+}
+
+function updateDokiPhrase(){
+  const box=document.getElementById('doki-phrase-box');
+  const dbtn=document.getElementById('doki-btn');
+  if(dokiPicked.length===0){box.textContent='...';dbtn.classList.remove('ready');return;}
+  const words=dokiPicked.map(p=>p.w).join(', ');
+  box.textContent=`Palavras: ${words}`;
+  if(dokiPicked.length===3){dbtn.classList.add('ready');}
+  else{dbtn.classList.remove('ready');}
+}
+
+document.getElementById('doki-btn').addEventListener('click',()=>{
+  if(dokiPicked.length<3)return;
+  const pts=dokiPicked.reduce((a,p)=>a+p.pts,0);
+  carisma+=pts;
+  const phrase=pts>=7?PHRASE_TEMPLATES.high:pts>=5?PHRASE_TEMPLATES.mid:PHRASE_TEMPLATES.low;
+  // show result
+  document.getElementById('doki-phrase-box').textContent='"'+phrase+'"';
+  document.getElementById('carisma-display').style.display='block';
+  document.getElementById('carisma-display').textContent=`⭐ +${pts} Carisma! Total: ${carisma}`;
+  burst(12);
+  document.getElementById('doki-btn').classList.remove('ready');
+  document.getElementById('doki-btn').textContent='Continuar ➤';
+  document.getElementById('doki-btn').classList.add('ready');
+  document.getElementById('doki-btn').onclick=()=>{
+    fadeTo(()=>{idx++;show('game-screen');updateCarisma();playScene();});
+    document.getElementById('doki-btn').onclick=null;
+    document.getElementById('doki-btn').textContent='Falar ➤';
+  };
+});
+
+// ═══════════════════════════════════════════
+//  DINO RUN MINI-GAME
+// ═══════════════════════════════════════════
+let dinoState={};
+function startDino(){
+  show('dino-screen');
+  document.getElementById('dino-msg').classList.remove('on');
+  const canvas=document.getElementById('dino-canvas');
+  const W=canvas.offsetWidth,H=canvas.offsetHeight;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+
+  const GND=H-40;
+  let dino={x:60,y:GND,vy:0,onGround:true,w:20,h:30};
+  let obstacles=[],particles=[];
+  let score=0,lives=3,speed=3,gameOver=false,won=false,frame=0,obstTimer=0;
+  const WIN_SCORE=300;
+
+  document.getElementById('dino-score').textContent=0;
+  document.getElementById('dino-lives').textContent=lives;
+
+  function jump(){if(dino.onGround){dino.vy=-13;dino.onGround=false;chirpJump();}}
+
+  function spawnObs(){
+    const type=Math.random()<.65?'cactus':'bird';
+    const h=type==='cactus'?20+~~(Math.random()*20):14;
+    const y=type==='cactus'?GND-h:GND-h-30-~~(Math.random()*40);
+    obstacles.push({x:W+20,y,w:18,h,type});
+  }
+
+  function drawDino(){
+    const y=dino.y-dino.h;
+    ctx.fillStyle='#ff6b9d';
+    // body
+    ctx.fillRect(dino.x,y,dino.w,dino.h);
+    // eye
+    ctx.fillStyle='#fff';
+    ctx.fillRect(dino.x+dino.w-6,y+4,5,5);
+    ctx.fillStyle='#0f0921';
+    ctx.fillRect(dino.x+dino.w-4,y+6,3,3);
+    // legs (animation)
+    const leg=frame%20<10?0:4;
+    ctx.fillStyle='#ff6b9d';
+    ctx.fillRect(dino.x+4,dino.y,5,8+leg);
+    ctx.fillRect(dino.x+dino.w-9,dino.y,5,8+(leg?0:4));
+    // arm
+    ctx.fillRect(dino.x+dino.w,y+8,8,4);
+  }
+
+  function drawObstacle(o){
+    if(o.type==='cactus'){
+      ctx.fillStyle='#15803d';
+      ctx.fillRect(o.x,o.y,o.w,o.h);
+      ctx.fillRect(o.x-4,o.y+6,o.w+8,6);
+      ctx.fillStyle='#166534';
+      ctx.fillRect(o.x+4,o.y,10,o.h+4);
+    } else {
+      ctx.fillStyle='#a855f7';
+      ctx.fillRect(o.x,o.y,o.w,o.h);
+      ctx.fillStyle='#c084fc';
+      ctx.fillRect(o.x-4,o.y+3,o.w+2,o.h-6);
+      ctx.fillRect(o.x,o.y-5,o.w,6);
+    }
+  }
+
+  function drawBg(){
+    const grad=ctx.createLinearGradient(0,0,0,H);
+    grad.addColorStop(0,'#08051a');grad.addColorStop(.7,'#1a0a3e');grad.addColorStop(1,'#0a1f15');
+    ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+    // ground
+    ctx.fillStyle='#2d1b69';ctx.fillRect(0,GND,W,3);
+    ctx.fillStyle='#1e1040';ctx.fillRect(0,GND+3,W,H-GND-3);
+    // stars
+    ctx.fillStyle='rgba(255,255,255,0.4)';
+    for(let i=0;i<18;i++){
+      const sx=(i*73+frame*.2)%W;
+      const sy=(i*37)%( GND-20);
+      ctx.fillRect(sx,sy,1+i%2,1+i%2);
+    }
+    // score line
+    ctx.fillStyle='rgba(168,85,247,0.15)';
+    const prog=Math.min(1,score/WIN_SCORE);
+    ctx.fillRect(0,H-3,W*prog,3);
+  }
+
+  function checkCollide(o){
+    return(dino.x+4<o.x+o.w&&dino.x+dino.w-4>o.x&&dino.y-dino.h+4<o.y+o.h&&dino.y>o.y);
+  }
+
+  function loop(){
+    if(gameOver)return;
+    frame++;score++;obstTimer++;
+    speed=3+score/200;
+    document.getElementById('dino-score').textContent=Math.floor(score/3);
+    // jump
+    if(!dino.onGround){dino.vy+=0.7;dino.y+=dino.vy;}
+    if(dino.y>=GND){dino.y=GND;dino.vy=0;dino.onGround=true;}
+    // spawn
+    const rate=Math.max(40,110-score/10);
+    if(obstTimer>=rate){obstTimer=0;spawnObs();}
+    // move obstacles
+    obstacles.forEach(o=>o.x-=speed);
+    obstacles=obstacles.filter(o=>o.x>-50);
+    // collide
+    obstacles.forEach(o=>{
+      if(checkCollide(o)&&!o.hit){
+        o.hit=true;lives--;
+        document.getElementById('dino-lives').textContent=lives;
+        for(let i=0;i<6;i++)particles.push({x:dino.x,y:dino.y-dino.h/2,vx:(Math.random()-.5)*5,vy:-3-Math.random()*4,life:60,em:'💥'});
+        if(lives<=0&&!won){gameOver=true;endDino(false);return;}
+      }
+    });
+    // particles
+    particles=particles.filter(p=>{p.life-=3;p.x+=p.vx;p.y+=p.vy;p.vy+=.3;return p.life>0;});
+    // win
+    if(score>=WIN_SCORE&&!won){won=true;gameOver=true;endDino(true);return;}
+    drawBg();
+    drawDino();
+    obstacles.forEach(drawObstacle);
+    particles.forEach(p=>{
+      ctx.save();ctx.globalAlpha=p.life/60;
+      ctx.font='16px serif';ctx.textAlign='center';ctx.fillText(p.em,p.x,p.y);
+      ctx.restore();
+    });
+    requestAnimationFrame(loop);
+  }
+
+  function onJump(e){
+    e.preventDefault();jump();
+  }
+  canvas.addEventListener('click',onJump);
+  canvas.addEventListener('touchstart',onJump,{passive:false});
+  document.addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();jump();}});
+
+  dinoState.stop=()=>{gameOver=true;};
+  loop();
+
+  function endDino(success){
+    dinoState.stop();
+    const msg=document.getElementById('dino-msg');
+    msg.classList.add('on');
+    const txt=document.getElementById('dino-msg-txt');
+    const sub=document.getElementById('dino-msg-sub');
+    if(success){
+      txt.innerHTML='🏁 VOCÊ CHEGOU LÁ!<br>Sem fôlego, mas chegou.';
+      sub.innerHTML='Agora é a hora de ser<br>honesto de verdade.';
+    } else {
+      txt.innerHTML='😤 Não foi dessa vez...<br>Mas você não desiste, né?';
+      sub.innerHTML='Tente de novo!';
+    }
+    document.getElementById('dino-msg-btn').onclick=()=>{
+      if(!success){startDino();return;}
+      fadeTo(()=>{idx++;show('game-screen');playScene();});
+    };
+  }
+}
+
+function chirpJump(){
+  try{
+    if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type='square';o.frequency.setValueAtTime(400,AC.currentTime);
+    o.frequency.linearRampToValueAtTime(800,AC.currentTime+.1);
+    g.gain.setValueAtTime(.03,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.15);
+    o.start();o.stop(AC.currentTime+.15);
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════
+//  FINAL CHOICE
+// ═══════════════════════════════════════════
+const noTexts=[
+  'Tem certeza mesmo? 🥺',
+  'O botão fugiu...<br>sinal do universo 💫',
+  'Impossível clicar nisso. 🌌',
+  '...ele desapareceu. 💨',
+];
+function openChoice(){
+  show('choice-screen');noBails=0;
+  const nb=document.getElementById('btn-no');
+  nb.style.position='';nb.style.left='';nb.style.top='';
+  nb.style.opacity='1';nb.style.pointerEvents='auto';
+  document.getElementById('choice-q').innerHTML='Quer ir em um<br>date comigo? 🌟';
+}
+document.getElementById('btn-yes').addEventListener('click',()=>{
+  burst(24);setTimeout(()=>fadeTo(()=>showEnding()),800);
+});
+document.getElementById('btn-no').addEventListener('click',()=>{
+  noBails++;
+  const cs=document.getElementById('choice-screen');
+  const btn=document.getElementById('btn-no');
+  const maxX=cs.offsetWidth-btn.offsetWidth-24;
+  const maxY=cs.offsetHeight-btn.offsetHeight-24;
+  btn.style.position='absolute';
+  btn.style.left=(20+Math.random()*maxX)+'px';
+  btn.style.top=(20+Math.random()*maxY)+'px';
+  const txt=noTexts[noBails-1];
+  if(txt)document.getElementById('choice-q').innerHTML=txt;
+  if(noBails>=4){btn.style.opacity='0';btn.style.pointerEvents='none';}
+});
+
+// ═══════════════════════════════════════════
+//  ENDING
+// ═══════════════════════════════════════════
+function showEnding(){
+  show('ending-screen');
+  document.getElementById('end-em').textContent='🌟❤️🌟';
+  const bonus=carisma>=9?'\n\nSeu carisma brilhou! ⭐':'';
+  document.getElementById('end-txt').innerHTML=
+    `${girlName},<br>você é especial.<br><br>Pode ser uma<br>aventura muito bonita.${bonus.replace('\n\n','<br><br>')}`;
+  let n=0;const iv=setInterval(()=>{spawnParticle();if(++n>32)clearInterval(iv);},140);
+}
+function resetGame(){
+  idx=0;noBails=0;hearts=3;carisma=0;
+  document.getElementById('ninp').value='';
+  document.getElementById('carisma-bar').style.display='none';
+  fadeTo(()=>show('title-screen'));
+}
+
+// ═══════════════════════════════════════════
+//  PARTICLES
+// ═══════════════════════════════════════════
+const ems=['❤️','💕','💗','💝','✨','🌟','💫','⭐'];
+function burst(n){for(let i=0;i<n;i++)setTimeout(spawnParticle,i*70);}
+function spawnParticle(){
+  const p=document.createElement('div');p.className='par';
+  p.textContent=ems[~~(Math.random()*ems.length)];
+  const g=document.getElementById('game');
+  const w=g.offsetWidth,h=g.offsetHeight;
+  p.style.cssText=`left:${Math.random()*w}px;top:${50+Math.random()*(h-80)}px;font-size:${10+Math.random()*14}px`;
+  g.appendChild(p);setTimeout(()=>p.remove(),2100);
+}
+
+// ═══════════════════════════════════════════
+//  AUDIO
+// ═══════════════════════════════════════════
+function chirp(){
+  try{
+    if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type='square';o.frequency.value=1100;
+    g.gain.setValueAtTime(.018,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.05);
+    o.start();o.stop(AC.currentTime+.055);
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+buildStars();
+</script>
+</body>
+</html>
