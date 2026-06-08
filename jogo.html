@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uma Última Vez ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --dark:#080514;
+  --bg:#0f0921;
+  --pink:#ff6b9d;
+  --pink2:#ff8fb3;
+  --purple:#a855f7;
+  --lavender:#c4b5fd;
+  --gold:#fbbf24;
+  --text:#f0e6ff;
+  --dim:#7c5cbf;
+  --green:#16a34a;
+  --glow:rgba(255,107,157,.25);
+}
+
+body{
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,#1a0a3e,#080514);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Press Start 2P',monospace;
+  overflow:hidden;
+}
+
+/* ══ GAME WINDOW ══ */
+#game{
+  width:min(580px,100vw);
+  aspect-ratio:16/10;
+  position:relative;
+  background:var(--bg);
+  border:2px solid var(--pink);
+  box-shadow:
+    0 0 0 1px rgba(255,107,157,.2),
+    0 0 24px var(--glow),
+    0 0 80px rgba(168,85,247,.1),
+    inset 0 0 40px rgba(0,0,0,.6);
+  overflow:hidden;
+  cursor:pointer;
+}
+
+/* ══ STARS ══ */
+#stars{position:absolute;inset:0;z-index:1;pointer-events:none}
+.star{
+  position:absolute;background:#fff;border-radius:50%;
+  animation:twinkle var(--d,2s) ease-in-out infinite;
+  animation-delay:var(--dl,0s);
+}
+@keyframes twinkle{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.85;transform:scale(1.6)}}
+
+/* ══ CRT SCANLINES ══ */
+#crt{
+  position:absolute;inset:0;pointer-events:none;z-index:91;
+  background:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(0,0,0,.07) 1px,rgba(0,0,0,.07) 2px);
+}
+
+/* ══ VIGNETTE ══ */
+#vignette{
+  position:absolute;inset:0;pointer-events:none;z-index:90;
+  background:radial-gradient(ellipse 90% 90% at 50% 50%,transparent 60%,rgba(0,0,0,.5) 100%);
+}
+
+/* ══ FADE ══ */
+#fade{
+  position:absolute;inset:0;background:#080514;
+  opacity:0;pointer-events:none;z-index:85;transition:opacity .35s;
+}
+
+/* ══ SCREENS ══ */
+.screen{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}
+.screen.on{display:flex}
+
+/* ══ FLOATING HEARTS (title) ══ */
+.fheart{
+  position:absolute;pointer-events:none;
+  animation:fh var(--d,3s) ease-in-out infinite;
+  animation-delay:var(--dl,0s);
+  font-size:14px;opacity:.7;
+}
+@keyframes fh{0%,100%{transform:translateY(0) rotate(-8deg);opacity:.5}50%{transform:translateY(-20px) rotate(8deg);opacity:1}}
+
+/* ══ TITLE SCREEN ══ */
+#title-screen{gap:10px}
+.t-pretitle{font-size:5px;color:var(--dim);letter-spacing:4px;text-transform:uppercase}
+.t-title{
+  font-size:clamp(12px,4vw,18px);color:var(--text);text-align:center;line-height:1.7;
+  text-shadow:0 0 20px var(--purple),0 0 40px var(--pink);
+}
+.t-heart{font-size:26px;margin:2px 0}
+.t-blink{font-size:5px;color:var(--gold);animation:blink 1.2s steps(1) infinite;letter-spacing:1px}
+@keyframes blink{50%{opacity:0}}
+
+/* ══ SETUP SCREEN ══ */
+#setup-screen{gap:14px;padding:24px}
+.s-label{font-size:5px;color:var(--dim);letter-spacing:3px}
+.s-q{font-size:8px;color:var(--text);text-align:center;line-height:2.2}
+#ninp{
+  background:transparent;border:0;border-bottom:2px solid var(--pink);
+  color:var(--text);font-family:'Press Start 2P',monospace;font-size:10px;
+  width:180px;padding:6px 4px;text-align:center;outline:none;caret-color:var(--pink);
+}
+#ninp::placeholder{color:var(--dim);font-size:7px}
+.px-btn{
+  font-family:'Press Start 2P',monospace;font-size:7px;padding:8px 18px;
+  background:var(--pink);color:#fff;border:none;cursor:pointer;
+  box-shadow:0 4px 0 #9c2f57,0 0 12px rgba(255,107,157,.3);
+  transition:transform .1s;
+}
+.px-btn:hover{transform:translateY(-1px)}
+.px-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #9c2f57}
+
+/* ══ GAME SCREEN ══ */
+#game-screen{justify-content:flex-end;padding:0}
+
+/* Scene area */
+#scene{
+  position:absolute;top:0;left:0;right:0;height:63%;
+  overflow:hidden;transition:background 1.2s ease;
+}
+#scene svg{
+  position:absolute;bottom:0;left:0;width:100%;height:100%;
+  pointer-events:none;image-rendering:pixelated;
+}
+
+/* Characters */
+.char{
+  position:absolute;bottom:0;
+  image-rendering:pixelated;
+  transition:opacity .6s ease, left 1.2s cubic-bezier(.25,.46,.45,.94);
+}
+#hero{height:56%;left:26%}
+#girl{height:56%;right:18%;opacity:0}
+
+/* Girl hearts */
+#girl-glow{
+  position:absolute;right:21%;top:5%;
+  font-size:9px;opacity:0;
+  animation:fh 2s ease-in-out infinite;
+  pointer-events:none;transition:opacity .5s;
+}
+
+/* Dialogue box */
+#dbox{
+  position:relative;width:100%;height:39%;
+  background:rgba(8,5,20,.97);border-top:2px solid var(--pink);
+  padding:8px 14px 6px;display:flex;flex-direction:column;gap:5px;z-index:20;
+}
+#chap{
+  position:absolute;top:-14px;left:10px;
+  background:var(--bg);border:1px solid var(--pink);border-bottom:none;
+  font-size:5px;color:var(--dim);padding:2px 8px;letter-spacing:1px;
+}
+#speaker{font-size:6px;color:var(--pink);text-transform:uppercase;letter-spacing:2px;min-height:12px}
+#dtxt{font-size:6.5px;color:var(--text);line-height:2;flex:1;overflow:hidden}
+#nxt{align-self:flex-end;font-size:5px;color:var(--gold);animation:blink .8s steps(1) infinite;display:none}
+
+/* Courage hearts */
+#hbar{position:absolute;top:6px;right:8px;font-size:8px;z-index:30;letter-spacing:1px}
+
+/* ══ CHOICE SCREEN ══ */
+#choice-screen{gap:14px;padding:20px;overflow:hidden;position:relative}
+#choice-q{font-size:8px;color:var(--text);text-align:center;line-height:2.4}
+#btn-yes{
+  font-family:'Press Start 2P',monospace;font-size:7px;padding:9px 22px;
+  background:var(--pink);color:#fff;border:none;cursor:pointer;
+  box-shadow:0 4px 0 #9c2f57,0 0 16px rgba(255,107,157,.4);
+  transition:all .2s;
+}
+#btn-yes:hover{filter:brightness(1.15);transform:scale(1.06)}
+#btn-no{
+  font-family:'Press Start 2P',monospace;font-size:6px;padding:8px 18px;
+  background:transparent;color:var(--dim);border:2px solid var(--dim);
+  cursor:pointer;transition:all .18s;
+}
+#btn-no:hover{color:var(--text);border-color:var(--lavender)}
+
+/* ══ ENDING SCREEN ══ */
+#ending-screen{gap:10px;padding:20px}
+#end-em{font-size:30px;animation:fh 2s ease-in-out infinite}
+#end-txt{font-size:7px;color:var(--pink);text-align:center;line-height:2.5;text-shadow:0 0 12px rgba(255,107,157,.5)}
+
+/* ══ PARTICLES ══ */
+.par{
+  position:absolute;pointer-events:none;z-index:95;
+  animation:pfly 1.8s ease-out forwards;
+}
+@keyframes pfly{
+  0%{transform:translateY(0) scale(1);opacity:1}
+  100%{transform:translateY(-130px) scale(.2);opacity:0}
+}
+</style>
+</head>
+<body>
+<div id="game">
+  <div id="stars"></div>
+  <div id="crt"></div>
+  <div id="vignette"></div>
+  <div id="fade"></div>
+
+  <!-- ══ TITLE ══ -->
+  <div class="screen on" id="title-screen">
+    <div class="fheart" style="left:10%;top:18%;--d:2.1s">💗</div>
+    <div class="fheart" style="right:12%;top:25%;--d:2.7s;--dl:.4s">💕</div>
+    <div class="fheart" style="left:18%;bottom:22%;--d:1.9s;--dl:.8s">✨</div>
+    <div class="fheart" style="right:16%;bottom:18%;--d:3.0s;--dl:.2s">💝</div>
+    <div class="fheart" style="left:42%;top:12%;--d:2.4s;--dl:.6s">⭐</div>
+    <div class="t-pretitle">— uma história de coragem —</div>
+    <div class="t-title">Uma<br>Última Vez</div>
+    <div class="t-heart">❤️</div>
+    <div class="t-blink">▶ toque para começar ◀</div>
+  </div>
+
+  <!-- ══ SETUP ══ -->
+  <div class="screen" id="setup-screen">
+    <div class="s-label">antes de começar...</div>
+    <div class="s-q">qual é o nome<br>dela?</div>
+    <input id="ninp" type="text" maxlength="12" placeholder="nome..." autocomplete="off" spellcheck="false">
+    <button class="px-btn" id="go-btn">Confirmar ➤</button>
+  </div>
+
+  <!-- ══ GAME ══ -->
+  <div class="screen" id="game-screen">
+
+    <div id="scene">
+      <!-- SVG scenery layers -->
+      <svg id="scene-svg" viewBox="0 0 580 230" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- CITY NIGHT -->
+        <g id="gCity" opacity="1" style="transition:opacity 1s">
+          <!-- Stars in sky -->
+          <rect x="30"  y="15" width="2" height="2" fill="white" opacity=".6"/>
+          <rect x="120" y="8"  width="2" height="2" fill="white" opacity=".8"/>
+          <rect x="210" y="20" width="2" height="2" fill="white" opacity=".5"/>
+          <rect x="350" y="10" width="2" height="2" fill="white" opacity=".7"/>
+          <rect x="470" y="18" width="2" height="2" fill="white" opacity=".6"/>
+          <rect x="530" y="6"  width="2" height="2" fill="white" opacity=".9"/>
+          <rect x="70"  y="35" width="1" height="1" fill="white" opacity=".5"/>
+          <rect x="430" y="32" width="1" height="1" fill="white" opacity=".4"/>
+          <!-- Moon -->
+          <circle cx="500" cy="35" r="14" fill="#fef9c3" opacity=".4"/>
+          <!-- Buildings -->
+          <rect x="0"   y="105" width="70"  height="125" fill="#0f0726"/>
+          <rect x="8"   y="90"  width="52"  height="140" fill="#1a0a3e"/>
+          <rect x="75"  y="70"  width="58"  height="160" fill="#0a0520"/>
+          <rect x="140" y="115" width="85"  height="115" fill="#130730"/>
+          <rect x="232" y="65"  width="52"  height="165" fill="#0f0726"/>
+          <rect x="292" y="95"  width="68"  height="135" fill="#1a0a3e"/>
+          <rect x="368" y="80"  width="62"  height="150" fill="#0a0520"/>
+          <rect x="438" y="110" width="90"  height="120" fill="#130730"/>
+          <rect x="530" y="90"  width="50"  height="140" fill="#0f0726"/>
+          <!-- Rooftop details -->
+          <rect x="10"  y="85"  width="48"  height="5"   fill="#2d1b69" opacity=".8"/>
+          <rect x="77"  y="66"  width="54"  height="4"   fill="#1e1040" opacity=".8"/>
+          <rect x="234" y="61"  width="48"  height="4"   fill="#2d1b69" opacity=".8"/>
+          <!-- Windows lit -->
+          <rect x="14"  y="98"  width="6" height="5" fill="#fbbf24" opacity=".75"/>
+          <rect x="24"  y="98"  width="6" height="5" fill="#c4b5fd" opacity=".6"/>
+          <rect x="34"  y="98"  width="6" height="5" fill="#fbbf24" opacity=".4"/>
+          <rect x="14"  y="110" width="6" height="5" fill="#c4b5fd" opacity=".5"/>
+          <rect x="34"  y="110" width="6" height="5" fill="#fbbf24" opacity=".6"/>
+          <rect x="82"  y="78"  width="7" height="5" fill="#fbbf24" opacity=".65"/>
+          <rect x="94"  y="78"  width="7" height="5" fill="#c4b5fd" opacity=".55"/>
+          <rect x="106" y="78"  width="7" height="5" fill="#fbbf24" opacity=".35"/>
+          <rect x="82"  y="90"  width="7" height="5" fill="#c4b5fd" opacity=".7"/>
+          <rect x="106" y="90"  width="7" height="5" fill="#fbbf24" opacity=".5"/>
+          <rect x="238" y="74"  width="8" height="5" fill="#fbbf24" opacity=".6"/>
+          <rect x="250" y="74"  width="8" height="5" fill="#c4b5fd" opacity=".55"/>
+          <rect x="262" y="74"  width="8" height="5" fill="#fbbf24" opacity=".4"/>
+          <rect x="238" y="87"  width="8" height="5" fill="#c4b5fd" opacity=".6"/>
+          <rect x="262" y="87"  width="8" height="5" fill="#fbbf24" opacity=".35"/>
+          <rect x="298" y="103" width="9" height="6" fill="#fbbf24" opacity=".6"/>
+          <rect x="312" y="103" width="9" height="6" fill="#c4b5fd" opacity=".5"/>
+          <rect x="326" y="103" width="9" height="6" fill="#fbbf24" opacity=".4"/>
+          <rect x="374" y="88"  width="8" height="5" fill="#fbbf24" opacity=".55"/>
+          <rect x="386" y="88"  width="8" height="5" fill="#c4b5fd" opacity=".65"/>
+          <rect x="398" y="88"  width="8" height="5" fill="#fbbf24" opacity=".3"/>
+          <!-- Road -->
+          <rect x="0"   y="222" width="580" height="8"  fill="#1e0f47"/>
+          <rect x="0"   y="218" width="580" height="4"  fill="#170d38"/>
+          <!-- Road markings -->
+          <rect x="40"  y="220" width="30" height="2"  fill="#fbbf24" opacity=".3"/>
+          <rect x="150" y="220" width="30" height="2"  fill="#fbbf24" opacity=".3"/>
+          <rect x="270" y="220" width="30" height="2"  fill="#fbbf24" opacity=".3"/>
+          <rect x="390" y="220" width="30" height="2"  fill="#fbbf24" opacity=".3"/>
+          <rect x="500" y="220" width="30" height="2"  fill="#fbbf24" opacity=".3"/>
+        </g>
+
+        <!-- PARK / GOLDEN HOUR -->
+        <g id="gPark" opacity="0" style="transition:opacity 1s">
+          <!-- Sky gradient banding -->
+          <rect x="0"   y="0"   width="580" height="60"  fill="#3b0764" opacity=".4"/>
+          <rect x="0"   y="60"  width="580" height="60"  fill="#7e1d48" opacity=".3"/>
+          <!-- Sun -->
+          <circle cx="290" cy="55" r="28" fill="#f59e0b" opacity=".35"/>
+          <circle cx="290" cy="55" r="20" fill="#fbbf24" opacity=".4"/>
+          <!-- Horizon glow -->
+          <rect x="0"   y="130" width="580" height="20"  fill="#92400e" opacity=".25"/>
+          <!-- Ground -->
+          <rect x="0"   y="148" width="580" height="82"  fill="#14532d"/>
+          <rect x="0"   y="165" width="580" height="65"  fill="#0f3d20"/>
+          <!-- Path -->
+          <rect x="200" y="148" width="180" height="82"  fill="#92400e" opacity=".5"/>
+          <rect x="220" y="155" width="140" height="75"  fill="#78350f" opacity=".4"/>
+          <!-- Left trees -->
+          <rect x="10"  y="75"  width="32"  height="100" fill="#14532d"/>
+          <rect x="0"   y="45"  width="52"  height="50"  fill="#166534"/>
+          <rect x="5"   y="28"  width="45"  height="30"  fill="#15803d"/>
+          <rect x="55"  y="90"  width="28"  height="85"  fill="#14532d"/>
+          <rect x="42"  y="62"  width="52"  height="44"  fill="#166534"/>
+          <rect x="47"  y="46"  width="42"  height="26"  fill="#15803d"/>
+          <rect x="95"  y="100" width="24"  height="75"  fill="#14532d"/>
+          <rect x="82"  y="74"  width="48"  height="40"  fill="#166534"/>
+          <!-- Right trees -->
+          <rect x="510" y="80"  width="32"  height="95"  fill="#14532d"/>
+          <rect x="500" y="50"  width="52"  height="50"  fill="#166534"/>
+          <rect x="505" y="34"  width="45"  height="28"  fill="#15803d"/>
+          <rect x="462" y="95"  width="28"  height="80"  fill="#14532d"/>
+          <rect x="450" y="68"  width="52"  height="44"  fill="#166534"/>
+          <rect x="455" y="52"  width="42"  height="26"  fill="#15803d"/>
+          <!-- Flowers -->
+          <rect x="155" y="155" width="4" height="4" fill="#fbbf24" opacity=".8"/>
+          <rect x="170" y="160" width="3" height="3" fill="#f472b6" opacity=".8"/>
+          <rect x="395" y="158" width="4" height="4" fill="#fbbf24" opacity=".8"/>
+          <rect x="415" y="162" width="3" height="3" fill="#f472b6" opacity=".8"/>
+        </g>
+
+        <!-- MEMORY / ROSE -->
+        <g id="gMem" opacity="0" style="transition:opacity 1s">
+          <!-- Glowing circles of memory -->
+          <circle cx="80"  cy="90"  r="40" fill="#ff6b9d" opacity=".06"/>
+          <circle cx="200" cy="60"  r="55" fill="#c084fc" opacity=".08"/>
+          <circle cx="380" cy="80"  r="45" fill="#fbbf24" opacity=".06"/>
+          <circle cx="500" cy="100" r="35" fill="#ff6b9d" opacity=".07"/>
+          <circle cx="290" cy="140" r="60" fill="#c084fc" opacity=".05"/>
+          <!-- Stars -->
+          <rect x="50"  y="30" width="3" height="3" fill="white" opacity=".5"/>
+          <rect x="150" y="20" width="2" height="2" fill="white" opacity=".7"/>
+          <rect x="320" y="15" width="3" height="3" fill="white" opacity=".6"/>
+          <rect x="480" y="25" width="2" height="2" fill="white" opacity=".5"/>
+          <rect x="420" y="50" width="2" height="2" fill="#ff6b9d" opacity=".8"/>
+          <rect x="100" y="55" width="2" height="2" fill="#c4b5fd" opacity=".7"/>
+          <!-- Soft ground -->
+          <rect x="0"   y="195" width="580" height="35" fill="#431236" opacity=".5"/>
+        </g>
+
+      </svg>
+
+      <!-- HERO (pixel boy) -->
+      <svg class="char" id="hero" viewBox="0 0 16 32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4"  y="0" width="8" height="2" fill="#4a2c0a"/>
+        <rect x="3"  y="1" width="10" height="3" fill="#5c3811"/>
+        <rect x="2"  y="3" width="12" height="9" fill="#fcd5b0"/>
+        <rect x="3"  y="2" width="10" height="2" fill="#5c3811"/>
+        <rect x="4"  y="5" width="2" height="2" fill="#2c1810"/>
+        <rect x="10" y="5" width="2" height="2" fill="#2c1810"/>
+        <rect x="4"  y="4" width="2" height="1" fill="#4a2c0a"/>
+        <rect x="10" y="4" width="2" height="1" fill="#4a2c0a"/>
+        <rect x="4"  y="5" width="1" height="1" fill="white" opacity=".5"/>
+        <rect x="10" y="5" width="1" height="1" fill="white" opacity=".5"/>
+        <rect x="6"  y="9" width="4" height="1" fill="#c27060"/>
+        <rect x="1"  y="6" width="1" height="3" fill="#fcd5b0"/>
+        <rect x="14" y="6" width="1" height="3" fill="#fcd5b0"/>
+        <rect x="2"  y="12" width="12" height="9" fill="#4f46e5"/>
+        <rect x="5"  y="12" width="6" height="2" fill="#3730a3"/>
+        <rect x="5"  y="18" width="6" height="2" fill="#3730a3"/>
+        <rect x="0"  y="12" width="2" height="8" fill="#4f46e5"/>
+        <rect x="14" y="12" width="2" height="8" fill="#4f46e5"/>
+        <rect x="0"  y="19" width="2" height="2" fill="#fcd5b0"/>
+        <rect x="14" y="19" width="2" height="2" fill="#fcd5b0"/>
+        <rect x="2"  y="21" width="12" height="7" fill="#1e293b"/>
+        <rect x="2"  y="21" width="12" height="1" fill="#334155"/>
+        <rect x="2"  y="27" width="5" height="4" fill="#1e293b"/>
+        <rect x="9"  y="27" width="5" height="4" fill="#1e293b"/>
+        <rect x="1"  y="30" width="6" height="2" fill="#0f172a"/>
+        <rect x="9"  y="30" width="6" height="2" fill="#0f172a"/>
+      </svg>
+
+      <!-- GIRL (pixel girl) -->
+      <svg class="char" id="girl" viewBox="0 0 16 32" xmlns="http://www.w3.org/2000/svg">
+        <!-- long hair back -->
+        <rect x="1"  y="3" width="2" height="18" fill="#be185d"/>
+        <rect x="13" y="3" width="2" height="18" fill="#be185d"/>
+        <!-- hair top -->
+        <rect x="3"  y="0" width="10" height="2" fill="#e11d6a"/>
+        <rect x="2"  y="1" width="12" height="4" fill="#be185d"/>
+        <!-- head -->
+        <rect x="3"  y="3" width="10" height="9" fill="#fcd5b0"/>
+        <!-- hair clip -->
+        <rect x="3"  y="2" width="3"  height="2" fill="#fbbf24"/>
+        <!-- eyes -->
+        <rect x="5"  y="5" width="2" height="2" fill="#be185d"/>
+        <rect x="9"  y="5" width="2" height="2" fill="#be185d"/>
+        <rect x="5"  y="4" width="2" height="1" fill="#5c1c40"/>
+        <rect x="9"  y="4" width="2" height="1" fill="#5c1c40"/>
+        <rect x="5"  y="5" width="1" height="1" fill="white" opacity=".8"/>
+        <rect x="9"  y="5" width="1" height="1" fill="white" opacity=".8"/>
+        <!-- blush -->
+        <rect x="4"  y="8" width="2" height="1" fill="#ffb3c6" opacity=".9"/>
+        <rect x="10" y="8" width="2" height="1" fill="#ffb3c6" opacity=".9"/>
+        <!-- smile -->
+        <rect x="6"  y="10" width="4" height="1" fill="#e05c8a"/>
+        <rect x="5"  y="9"  width="1" height="1" fill="#e05c8a"/>
+        <rect x="10" y="9"  width="1" height="1" fill="#e05c8a"/>
+        <!-- ears -->
+        <rect x="2"  y="6"  width="1" height="2" fill="#fcd5b0"/>
+        <rect x="13" y="6"  width="1" height="2" fill="#fcd5b0"/>
+        <rect x="2"  y="8"  width="1" height="1" fill="#fbbf24"/>
+        <rect x="13" y="8"  width="1" height="1" fill="#fbbf24"/>
+        <!-- dress bodice -->
+        <rect x="3"  y="12" width="10" height="6" fill="#ff6b9d"/>
+        <rect x="6"  y="12" width="4"  height="2" fill="#ffaec9"/>
+        <!-- arms/hands -->
+        <rect x="0"  y="12" width="3"  height="7" fill="#fcd5b0"/>
+        <rect x="13" y="12" width="3"  height="7" fill="#fcd5b0"/>
+        <rect x="0"  y="18" width="2"  height="2" fill="#fcd5b0"/>
+        <rect x="14" y="18" width="2"  height="2" fill="#fcd5b0"/>
+        <!-- skirt -->
+        <rect x="2"  y="18" width="12" height="6" fill="#ff8fb3"/>
+        <rect x="1"  y="22" width="14" height="5" fill="#ffa8c9"/>
+        <!-- legs -->
+        <rect x="5"  y="26" width="3"  height="4" fill="#fcd5b0"/>
+        <rect x="8"  y="26" width="3"  height="4" fill="#fcd5b0"/>
+        <!-- shoes -->
+        <rect x="4"  y="29" width="4"  height="3" fill="#be185d"/>
+        <rect x="8"  y="29" width="4"  height="3" fill="#be185d"/>
+      </svg>
+
+      <div id="girl-glow">💕✨</div>
+    </div>
+
+    <!-- Dialogue -->
+    <div id="dbox">
+      <div id="chap">Prólogo</div>
+      <div id="speaker"></div>
+      <div id="dtxt"></div>
+      <div id="nxt">▼ continuar</div>
+    </div>
+
+    <div id="hbar">❤️❤️❤️</div>
+  </div>
+
+  <!-- ══ CHOICE SCREEN ══ -->
+  <div class="screen" id="choice-screen">
+    <div id="choice-q">Quer dar uma<br>chance pra gente?</div>
+    <button id="btn-yes">Sim ❤️</button>
+    <button id="btn-no">Não...</button>
+  </div>
+
+  <!-- ══ ENDING ══ -->
+  <div class="screen" id="ending-screen">
+    <div id="end-em">🌟❤️🌟</div>
+    <div id="end-txt"></div>
+    <button class="px-btn" style="font-size:5px;margin-top:14px" onclick="resetGame()">↺ recomeçar do início</button>
+  </div>
+
+</div><!-- #game -->
+
+<script>
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+let girlName = 'Ela';
+let idx = 0;
+let typing = false;
+let ttimer = null;
+let noBails = 0;
+let hearts = 3;
+
+// ─────────────────────────────────────────
+//  SCENES
+// ─────────────────────────────────────────
+const BG = {
+  night:  'linear-gradient(180deg,#080514 0%,#0f0921 40%,#1a0a3e 100%)',
+  city:   'linear-gradient(180deg,#0b0618 0%,#150d28 35%,#1e1040 75%,#2d1b69 100%)',
+  mem:    'linear-gradient(180deg,#3b0726 0%,#6d1140 50%,#9d174d 100%)',
+  golden: 'linear-gradient(180deg,#1a0a3e 0%,#4a1942 35%,#78350f 75%,#a16207 100%)',
+  park:   'linear-gradient(180deg,#0a1f15 0%,#0f2d1a 40%,#14532d 100%)',
+};
+
+const S = [
+  // Cap. 1 – A Decisão
+  {c:'Capítulo 1 — A Decisão', sp:'NARRADOR',  bg:'night', sc:'city',  hx:28, hero:true,  girl:false, h:3,
+   t:'Era uma tarde como qualquer outra...'},
+  {c:'Capítulo 1', sp:'NARRADOR', bg:'night', sc:'city', hx:28, hero:true, girl:false,
+   t:'...exceto que não era.'},
+  {c:'Capítulo 1', sp:'ELE', bg:'city', sc:'city', hx:24, hero:true, girl:false,
+   t:'Respira.  Você sabe o que precisa fazer.'},
+  {c:'Capítulo 1', sp:'ELE', bg:'city', sc:'city', hx:24, hero:true, girl:false, h:2,
+   t:'Essa é a última vez.  E vai ser de verdade.'},
+  {c:'Capítulo 1', sp:'NARRADOR', bg:'city', sc:'city', hx:24, hero:true, girl:false,
+   t:'Ele sabia que seria a última tentativa.'},
+  {c:'Capítulo 1', sp:'NARRADOR', bg:'city', sc:'city', hx:24, hero:true, girl:false,
+   t:'Por isso precisava ser honesto.  Do começo ao fim.'},
+
+  // Cap. 2 – A Memória
+  {c:'Capítulo 2 — A Memória', sp:'NARRADOR', bg:'mem', sc:'mem', hx:28, hero:false, girl:false,
+   t:'Tantas pessoas passaram pela vida dele...'},
+  {c:'Capítulo 2', sp:'NARRADOR', bg:'mem', sc:'mem', hx:28, hero:false, girl:false,
+   t:'...mas nenhuma como ela.'},
+  {c:'Capítulo 2', sp:'ELE', bg:'mem', sc:'mem', hx:24, hero:true, girl:false,
+   t:'De todas que conheci...'},
+  {c:'Capítulo 2', sp:'ELE', bg:'mem', sc:'mem', hx:24, hero:true, girl:false,
+   t:'...só você me fez sentir diferente.'},
+  {c:'Capítulo 2', sp:'ELE', bg:'mem', sc:'mem', hx:24, hero:true, girl:false,
+   t:'Tem algo em você.  Algo especial.  Genuíno.'},
+  {c:'Capítulo 2', sp:'NARRADOR', bg:'mem', sc:'mem', hx:24, hero:true, girl:false,
+   t:'Mais maduro agora, ele entendia isso melhor do que nunca.'},
+
+  // Cap. 3 – A Caminhada
+  {c:'Capítulo 3 — A Caminhada', sp:'NARRADOR', bg:'golden', sc:'park', hx:12, hero:true, girl:false, h:1,
+   t:'Com o coração acelerado...'},
+  {c:'Capítulo 3', sp:'NARRADOR', bg:'golden', sc:'park', hx:28, hero:true, girl:false,
+   t:'...ele foi até ela.'},
+
+  // Cap. 4 – O Encontro
+  {c:'Capítulo 4 — O Encontro', sp:'ELE', bg:'golden', sc:'park', hx:28, hero:true, girl:true,
+   t:'Oi, {name}.'},
+  {c:'Capítulo 4', sp:'ELE', bg:'golden', sc:'park', hx:28, hero:true, girl:true,
+   t:'Posso falar contigo um segundo?'},
+  {c:'Capítulo 4', sp:'ELE', bg:'golden', sc:'park', hx:28, hero:true, girl:true,
+   t:'Eu sei que você já sabe que eu gosto de você.'},
+  {c:'Capítulo 4', sp:'ELE', bg:'golden', sc:'park', hx:28, hero:true, girl:true,
+   t:'E sei que não é fácil carregar isso.  Me desculpa por isso.'},
+  {c:'Capítulo 4', sp:'ELE', bg:'golden', sc:'park', hx:28, hero:true, girl:true,
+   t:'Mas você é uma pessoa especial.  De verdade.'},
+  {c:'Capítulo 4', sp:'ELE', bg:'golden', sc:'park', hx:28, hero:true, girl:true,
+   t:'De todas que conheci... só você.'},
+  {c:'Capítulo 4', sp:'ELE', bg:'golden', sc:'park', hx:28, hero:true, girl:true,
+   t:'Não é paixão passageira.  É algo mais sério.'},
+  {c:'Capítulo 4', sp:'ELE', bg:'golden', sc:'park', hx:28, hero:true, girl:true,
+   t:'Por isso preciso te fazer uma pergunta.'},
+];
+
+// ─────────────────────────────────────────
+//  STARS
+// ─────────────────────────────────────────
+function buildStars(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<55;i++){
+    const s=document.createElement('div'); s.className='star';
+    const sz=Math.random()*1.4+.4;
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${(Math.random()*2+1.5).toFixed(1)}s;--dl:${(Math.random()*2).toFixed(1)}s`;
+    c.appendChild(s);
+  }
+}
+
+// ─────────────────────────────────────────
+//  SCREEN MANAGER
+// ─────────────────────────────────────────
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+function fadeTo(cb){
+  const f=document.getElementById('fade');
+  f.style.opacity=1; f.style.pointerEvents='all';
+  setTimeout(()=>{ cb(); setTimeout(()=>{ f.style.opacity=0; f.style.pointerEvents='none'; },50); },370);
+}
+
+// ─────────────────────────────────────────
+//  TITLE → SETUP
+// ─────────────────────────────────────────
+document.getElementById('title-screen').addEventListener('click',()=>{
+  show('setup-screen');
+  setTimeout(()=>document.getElementById('ninp').focus(),60);
+});
+document.getElementById('go-btn').addEventListener('click', begin);
+document.getElementById('ninp').addEventListener('keydown',e=>{ if(e.key==='Enter') begin(); });
+
+function begin(){
+  const v=document.getElementById('ninp').value.trim();
+  girlName=v||'Ela';
+  idx=0; hearts=3; renderH();
+  fadeTo(()=>{ show('game-screen'); playScene(); });
+}
+
+// ─────────────────────────────────────────
+//  SCENE ENGINE
+// ─────────────────────────────────────────
+function rep(t){ return t.replace(/{name}/g,girlName); }
+
+function playScene(){
+  if(idx>=S.length){ fadeTo(()=>openChoice()); return; }
+  const s=S[idx];
+  if(s.h!==undefined){ hearts=s.h; renderH(); }
+
+  // background
+  document.getElementById('scene').style.background=BG[s.bg]||BG.night;
+
+  // scenery layers
+  document.getElementById('gCity').style.opacity = (s.sc==='city') ?1:0;
+  document.getElementById('gPark').style.opacity = (s.sc==='park') ?1:0;
+  document.getElementById('gMem').style.opacity  = (s.sc==='mem')  ?1:0;
+
+  // characters
+  const hero=document.getElementById('hero');
+  const girl=document.getElementById('girl');
+  hero.style.opacity = s.hero?1:0;
+  girl.style.opacity = s.girl?1:0;
+  document.getElementById('girl-glow').style.opacity = s.girl?1:0;
+  if(s.hero) hero.style.left=s.hx+'%';
+
+  // speaker
+  const sp=document.getElementById('speaker');
+  if(s.sp==='NARRADOR'){ sp.textContent='— Narrador —'; sp.style.color='#9270cc'; }
+  else { sp.textContent='♥ Ele'; sp.style.color='#ff6b9d'; }
+
+  // chapter
+  document.getElementById('chap').textContent=s.c;
+
+  // type
+  typeText(rep(s.t));
+}
+
+function typeText(txt){
+  const el=document.getElementById('dtxt');
+  const nxt=document.getElementById('nxt');
+  el.textContent=''; nxt.style.display='none';
+  typing=true; let i=0;
+  if(ttimer) clearInterval(ttimer);
+  chirp();
+  ttimer=setInterval(()=>{
+    el.textContent+=txt[i]; i++;
+    if(i>=txt.length){ clearInterval(ttimer); typing=false; nxt.style.display='block'; }
+  },38);
+}
+
+document.getElementById('game-screen').addEventListener('click',()=>{
+  if(typing){
+    clearInterval(ttimer); typing=false;
+    document.getElementById('dtxt').textContent=rep(S[idx].t);
+    document.getElementById('nxt').style.display='block';
+    return;
+  }
+  idx++;
+  if(idx>=S.length) fadeTo(()=>openChoice());
+  else playScene();
+});
+
+function renderH(){
+  document.getElementById('hbar').textContent='❤️'.repeat(hearts)+'🖤'.repeat(3-hearts);
+}
+
+// ─────────────────────────────────────────
+//  CHOICE
+// ─────────────────────────────────────────
+const noTexts=[
+  'Tem certeza mesmo? 🥺',
+  'O botão fugiu...<br>sinal do universo 💫',
+  'Impossível clicar nisso. 🌌',
+  '...ele desapareceu. 💨',
+];
+
+function openChoice(){
+  show('choice-screen');
+  noBails=0;
+  const nb=document.getElementById('btn-no');
+  nb.style.position=''; nb.style.left=''; nb.style.top='';
+  nb.style.opacity='1'; nb.style.pointerEvents='auto';
+  document.getElementById('choice-q').innerHTML='Quer dar uma<br>chance pra gente?';
+}
+
+document.getElementById('btn-yes').addEventListener('click',()=>{
+  burst(22);
+  setTimeout(()=>fadeTo(()=>showEnding()),800);
+});
+
+document.getElementById('btn-no').addEventListener('click',()=>{
+  noBails++;
+  const cs=document.getElementById('choice-screen');
+  const btn=document.getElementById('btn-no');
+  const maxX=cs.offsetWidth-btn.offsetWidth-24;
+  const maxY=cs.offsetHeight-btn.offsetHeight-24;
+  btn.style.position='absolute';
+  btn.style.left=(20+Math.random()*maxX)+'px';
+  btn.style.top =(20+Math.random()*maxY)+'px';
+  const txt=noTexts[noBails-1];
+  if(txt) document.getElementById('choice-q').innerHTML=txt;
+  if(noBails>=4){ btn.style.opacity='0'; btn.style.pointerEvents='none'; }
+});
+
+// ─────────────────────────────────────────
+//  ENDING
+// ─────────────────────────────────────────
+function showEnding(){
+  show('ending-screen');
+  document.getElementById('end-em').textContent='🌟❤️🌟';
+  document.getElementById('end-txt').innerHTML=
+    `${girlName},<br>você é especial.<br><br>Pode ser uma<br>aventura muito bonita.`;
+  let n=0;
+  const iv=setInterval(()=>{ spawnParticle(); if(++n>28) clearInterval(iv); },160);
+}
+
+function resetGame(){
+  idx=0; noBails=0; hearts=3;
+  document.getElementById('ninp').value='';
+  fadeTo(()=>show('title-screen'));
+}
+
+// ─────────────────────────────────────────
+//  PARTICLES
+// ─────────────────────────────────────────
+const ems=['❤️','💕','💗','💝','✨','🌟','💫','⭐'];
+function burst(n){ for(let i=0;i<n;i++) setTimeout(spawnParticle, i*80); }
+function spawnParticle(){
+  const p=document.createElement('div'); p.className='par';
+  p.textContent=ems[~~(Math.random()*ems.length)];
+  const g=document.getElementById('game');
+  const w=g.offsetWidth, h=g.offsetHeight;
+  p.style.cssText=`left:${Math.random()*w}px;top:${50+Math.random()*(h-80)}px;font-size:${10+Math.random()*14}px`;
+  g.appendChild(p);
+  setTimeout(()=>p.remove(),2100);
+}
+
+// ─────────────────────────────────────────
+//  AUDIO
+// ─────────────────────────────────────────
+let ac;
+function chirp(){
+  try{
+    if(!ac) ac=new(window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.connect(g); g.connect(ac.destination);
+    o.type='square'; o.frequency.value=1100;
+    g.gain.setValueAtTime(.022,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.055);
+    o.start(); o.stop(ac.currentTime+.055);
+  }catch(e){}
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+buildStars();
+</script>
+</body>
+</html>
