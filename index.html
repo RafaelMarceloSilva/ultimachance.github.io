@@ -18,9 +18,9 @@ body{
   font-family:'Press Start 2P',monospace;overflow:hidden;
 }
 #game{
-  width:min(600px,100vw);aspect-ratio:16/10;position:relative;
+  width:min(800px,100vw);aspect-ratio:16/10;position:relative;
   background:var(--bg);border:2px solid var(--pink);
-  box-shadow:0 0 0 1px rgba(255,107,157,.2),0 0 24px var(--glow),0 0 80px rgba(168,85,247,.1),inset 0 0 40px rgba(0,0,0,.6);
+  box-shadow:0 0 0 1px rgba(255,107,157,.2),0 0 32px var(--glow),0 0 100px rgba(168,85,247,.12),inset 0 0 50px rgba(0,0,0,.6);
   overflow:hidden;user-select:none;
 }
 #stars{position:absolute;inset:0;z-index:1;pointer-events:none}
@@ -37,8 +37,8 @@ body{
 /* TITLE */
 #title-screen{gap:10px;cursor:pointer}
 .t-pretitle{font-size:5px;color:var(--dim);letter-spacing:4px;text-transform:uppercase}
-.t-title{font-size:clamp(12px,4vw,18px);color:var(--text);text-align:center;line-height:1.7;text-shadow:0 0 20px var(--purple),0 0 40px var(--pink)}
-.t-heart{font-size:26px;margin:2px 0}
+.t-title{font-size:clamp(12px,4vw,20px);color:var(--text);text-align:center;line-height:1.7;text-shadow:0 0 20px var(--purple),0 0 40px var(--pink)}
+.t-heart{font-size:28px;margin:2px 0}
 .t-blink{font-size:5px;color:var(--gold);animation:blink 1.2s steps(1) infinite;letter-spacing:1px}
 @keyframes blink{50%{opacity:0}}
 
@@ -61,10 +61,10 @@ body{
 #hero{height:56%;left:26%}
 #girl{height:56%;right:18%;opacity:0}
 #girl-glow{position:absolute;right:21%;top:5%;font-size:9px;opacity:0;animation:fh 2s ease-in-out infinite;pointer-events:none;transition:opacity .5s}
-#dbox{position:relative;width:100%;height:39%;background:rgba(8,5,20,.97);border-top:2px solid var(--pink);padding:8px 14px 6px;display:flex;flex-direction:column;gap:5px;z-index:20}
+#dbox{position:relative;width:100%;height:39%;background:rgba(8,5,20,.97);border-top:2px solid var(--pink);padding:8px 16px 6px;display:flex;flex-direction:column;gap:5px;z-index:20}
 #chap{position:absolute;top:-14px;left:10px;background:var(--bg);border:1px solid var(--pink);border-bottom:none;font-size:5px;color:var(--dim);padding:2px 8px;letter-spacing:1px}
 #speaker{font-size:6px;color:var(--pink);text-transform:uppercase;letter-spacing:2px;min-height:12px}
-#dtxt{font-size:6.5px;color:var(--text);line-height:2;flex:1;overflow:hidden}
+#dtxt{font-size:7px;color:var(--text);line-height:2.1;flex:1;overflow:hidden}
 #nxt{align-self:flex-end;font-size:5px;color:var(--gold);animation:blink .8s steps(1) infinite;display:none}
 #hbar{position:absolute;top:6px;right:8px;font-size:8px;z-index:30;letter-spacing:1px}
 #charisma-bar{position:absolute;top:6px;left:8px;font-size:5px;color:var(--lavender);z-index:30;display:none}
@@ -84,11 +84,11 @@ body{
 #doki-screen.on{display:flex}
 #doki-title{font-size:7px;color:var(--pink);letter-spacing:2px;text-align:center}
 #doki-instruction{font-size:5px;color:var(--dim);text-align:center;line-height:2}
-#doki-words{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:420px}
+#doki-words{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
 .dword{font-family:'Press Start 2P',monospace;font-size:6px;padding:6px 12px;background:rgba(255,107,157,.08);color:var(--lavender);border:1px solid var(--dim);cursor:pointer;transition:all .2s}
 .dword:hover{background:rgba(255,107,157,.25);color:var(--pink);border-color:var(--pink);transform:scale(1.08)}
 .dword.picked{background:rgba(255,107,157,.4);color:#fff;border-color:var(--pink2);transform:scale(1.05)}
-#doki-phrase-box{min-height:40px;border:1px solid var(--dim);background:rgba(0,0,0,.3);padding:8px 12px;font-size:6px;color:var(--text);text-align:center;line-height:2.2;width:100%;max-width:420px}
+#doki-phrase-box{min-height:40px;border:1px solid var(--dim);background:rgba(0,0,0,.3);padding:8px 12px;font-size:6px;color:var(--text);text-align:center;line-height:2.2;width:100%;max-width:520px}
 #doki-btn{opacity:0;pointer-events:none;transition:opacity .3s}
 #doki-btn.ready{opacity:1;pointer-events:auto}
 #carisma-display{font-size:6px;color:var(--gold);text-align:center;display:none}
@@ -105,14 +105,14 @@ body{
 
 /* CHOICE + ENDING */
 #choice-screen{gap:14px;padding:20px;overflow:hidden;position:relative}
-#choice-q{font-size:8px;color:var(--text);text-align:center;line-height:2.4}
-#btn-yes{font-family:'Press Start 2P',monospace;font-size:7px;padding:9px 22px;background:var(--pink);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 0 #9c2f57,0 0 16px rgba(255,107,157,.4);transition:all .2s}
-#btn-yes:hover{filter:brightness(1.15);transform:scale(1.06)}
+#choice-q{font-size:8px;color:var(--text);text-align:center;line-height:2.6}
+#btn-yes{font-family:'Press Start 2P',monospace;font-size:7px;padding:10px 24px;background:var(--pink);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 0 #9c2f57,0 0 20px rgba(255,107,157,.5),0 0 40px rgba(255,107,157,.2);transition:all .2s}
+#btn-yes:hover{filter:brightness(1.2);transform:scale(1.08)}
 #btn-no{font-family:'Press Start 2P',monospace;font-size:6px;padding:8px 18px;background:transparent;color:var(--dim);border:2px solid var(--dim);cursor:pointer;transition:all .18s}
 #btn-no:hover{color:var(--text);border-color:var(--lavender)}
 #ending-screen{gap:10px;padding:20px}
-#end-em{font-size:30px;animation:fh 2s ease-in-out infinite}
-#end-txt{font-size:7px;color:var(--pink);text-align:center;line-height:2.5;text-shadow:0 0 12px rgba(255,107,157,.5)}
+#end-em{font-size:32px;animation:fh 2s ease-in-out infinite}
+#end-txt{font-size:7px;color:var(--pink);text-align:center;line-height:2.8;text-shadow:0 0 12px rgba(255,107,157,.5)}
 .par{position:absolute;pointer-events:none;z-index:95;animation:pfly 1.8s ease-out forwards}
 @keyframes pfly{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-130px) scale(.2);opacity:0}}
 </style>
@@ -140,9 +140,9 @@ body{
   <!-- SETUP -->
   <div class="screen" id="setup-screen">
     <div class="s-label">antes de começar...</div>
-    <div class="s-q">Qual é o seu nome?</div>
-    <div class="s-hint">haha já sei qual é 😏</div>
-    <input id="ninp" type="text" maxlength="12" placeholder="nome..." autocomplete="off" spellcheck="false">
+    <div class="s-q">Qual é o nome dela?</div>
+    <div class="s-hint">a protagonista da sua história 💕</div>
+    <input id="ninp" type="text" maxlength="12" placeholder="nome dela..." autocomplete="off" spellcheck="false">
     <button class="px-btn" id="go-btn">Confirmar ➤</button>
   </div>
 
@@ -203,7 +203,7 @@ body{
           <rect x="170" y="160" width="3" height="3" fill="#f472b6" opacity=".8"/>
           <rect x="395" y="158" width="4" height="4" fill="#fbbf24" opacity=".8"/>
         </g>
-        <!-- CAFE -->
+        <!-- CAFE / AÇOUGUE (reutilizado) -->
         <g id="gCafe" opacity="0" style="transition:opacity 1s">
           <rect x="0" y="0" width="580" height="230" fill="#1a0a0a" opacity=".3"/>
           <rect x="60" y="60" width="460" height="170" fill="#2d1208"/>
@@ -247,6 +247,7 @@ body{
           <rect x="0" y="195" width="580" height="35" fill="#431236" opacity=".5"/>
         </g>
       </svg>
+
       <!-- HERO -->
       <svg class="char" id="hero" viewBox="0 0 16 32" xmlns="http://www.w3.org/2000/svg">
         <rect x="4" y="0" width="8" height="2" fill="#4a2c0a"/>
@@ -266,31 +267,45 @@ body{
         <rect x="1" y="30" width="6" height="2" fill="#0f172a"/>
         <rect x="9" y="30" width="6" height="2" fill="#0f172a"/>
       </svg>
-      <!-- GIRL -->
+
+      <!-- GIRL — cabelos castanhos, roupa preta -->
       <svg class="char" id="girl" viewBox="0 0 16 32" xmlns="http://www.w3.org/2000/svg">
-        <rect x="1" y="3" width="2" height="18" fill="#be185d"/>
-        <rect x="13" y="3" width="2" height="18" fill="#be185d"/>
-        <rect x="3" y="0" width="10" height="2" fill="#e11d6a"/>
-        <rect x="2" y="1" width="12" height="4" fill="#be185d"/>
+        <!-- cabelo lateral -->
+        <rect x="1" y="3" width="2" height="18" fill="#5c2d00"/>
+        <rect x="13" y="3" width="2" height="18" fill="#5c2d00"/>
+        <!-- topo do cabelo -->
+        <rect x="3" y="0" width="10" height="2" fill="#3d1c00"/>
+        <rect x="2" y="1" width="12" height="4" fill="#5c2d00"/>
+        <!-- rosto -->
         <rect x="3" y="3" width="10" height="9" fill="#fcd5b0"/>
-        <rect x="3" y="2" width="3" height="2" fill="#fbbf24"/>
-        <rect x="5" y="5" width="2" height="2" fill="#be185d"/>
-        <rect x="9" y="5" width="2" height="2" fill="#be185d"/>
+        <!-- franja castanha -->
+        <rect x="3" y="2" width="3" height="3" fill="#7c4500"/>
+        <!-- olhos -->
+        <rect x="5" y="5" width="2" height="2" fill="#1a0a2e"/>
+        <rect x="9" y="5" width="2" height="2" fill="#1a0a2e"/>
         <rect x="5" y="5" width="1" height="1" fill="white" opacity=".8"/>
         <rect x="9" y="5" width="1" height="1" fill="white" opacity=".8"/>
+        <!-- blush -->
         <rect x="4" y="8" width="2" height="1" fill="#ffb3c6" opacity=".9"/>
         <rect x="10" y="8" width="2" height="1" fill="#ffb3c6" opacity=".9"/>
+        <!-- boca -->
         <rect x="6" y="10" width="4" height="1" fill="#e05c8a"/>
-        <rect x="3" y="12" width="10" height="6" fill="#ff6b9d"/>
+        <!-- blusa preta -->
+        <rect x="3" y="12" width="10" height="6" fill="#1a1a1a"/>
+        <!-- braços pele -->
         <rect x="0" y="12" width="3" height="7" fill="#fcd5b0"/>
         <rect x="13" y="12" width="3" height="7" fill="#fcd5b0"/>
-        <rect x="2" y="18" width="12" height="6" fill="#ff8fb3"/>
-        <rect x="1" y="22" width="14" height="5" fill="#ffa8c9"/>
+        <!-- saia preta -->
+        <rect x="2" y="18" width="12" height="6" fill="#111111"/>
+        <rect x="1" y="22" width="14" height="5" fill="#1a1a1a"/>
+        <!-- pernas pele -->
         <rect x="5" y="26" width="3" height="4" fill="#fcd5b0"/>
         <rect x="8" y="26" width="3" height="4" fill="#fcd5b0"/>
-        <rect x="4" y="29" width="4" height="3" fill="#be185d"/>
-        <rect x="8" y="29" width="4" height="3" fill="#be185d"/>
+        <!-- sapatos pretos -->
+        <rect x="4" y="29" width="4" height="3" fill="#111111"/>
+        <rect x="8" y="29" width="4" height="3" fill="#111111"/>
       </svg>
+
       <div id="girl-glow">💕✨</div>
     </div>
     <div id="dbox">
@@ -306,8 +321,8 @@ body{
   <!-- FRUIT NINJA SCREEN -->
   <div class="screen" id="ninja-screen">
     <div id="ninja-hud">
-      <span>🥩 CAP. 1 — CORTE A CARNE!</span>
-      <span>Pontos: <span id="ninja-score">0</span> / <span id="ninja-goal">5</span></span>
+      <span>🥩 CAP. 1 — CORTE AS CARNES!</span>
+      <span>Pontos: <span id="ninja-score">0</span> / <span id="ninja-goal">8</span></span>
       <span>Vidas: <span id="ninja-lives">3</span></span>
     </div>
     <canvas id="ninja-canvas"></canvas>
@@ -321,7 +336,7 @@ body{
   <!-- DOKI DOKI SCREEN -->
   <div class="screen" id="doki-screen">
     <div id="doki-title">💬 Cap. 2 — Escolha Suas Palavras</div>
-    <div id="doki-instruction">Escolha 3 palavras para montar seu diálogo</div>
+    <div id="doki-instruction">Escolha 3 palavras para conversar com ela</div>
     <div id="doki-words"></div>
     <div id="doki-phrase-box">...</div>
     <div id="carisma-display">⭐ +Carisma!</div>
@@ -331,8 +346,8 @@ body{
   <!-- DINO SCREEN -->
   <div class="screen" id="dino-screen">
     <div id="dino-hud">
-      <span>🏃 CAP. 3 — ÚLTIMA CORRIDA</span>
-      <span>Dist: <span id="dino-score">0</span>m</span>
+      <span>🏃 CAP. 3 — CORRA ATÉ ELA!</span>
+      <span>Dist: <span id="dino-score">0</span>m / 3000m</span>
       <span>Vidas: <span id="dino-lives">3</span></span>
     </div>
     <canvas id="dino-canvas"></canvas>
@@ -373,98 +388,108 @@ const BG={
   golden:'linear-gradient(180deg,#1a0a3e 0%,#4a1942 35%,#78350f 75%,#a16207 100%)',
   park:'linear-gradient(180deg,#0a1f15 0%,#0f2d1a 40%,#14532d 100%)',
   cafe:'linear-gradient(180deg,#1a0808 0%,#2d1005 40%,#1a0a04 100%)',
+  butcher:'linear-gradient(180deg,#200808 0%,#3d0a0a 40%,#2d0d08 100%)',
 };
 
 // ═══════════════════════════════════════════
 //  DIALOGUE SCRIPT
 // ═══════════════════════════════════════════
-// tag: 'ninja' triggers fruit ninja, 'doki' triggers word game, 'dino' triggers dino run
 const S=[
-  // PRE-CAP 1
-  {c:'Capítulo 1 — A Decisão',sp:'NARRADOR',bg:'night',sc:'city',hx:28,hero:true,girl:false,h:3,
-   t:'Era uma tarde como qualquer outra...'},
-  {c:'Capítulo 1',sp:'NARRADOR',bg:'night',sc:'city',hx:28,hero:true,girl:false,
-   t:'...exceto que não era.'},
-  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:24,hero:true,girl:false,
-   t:'Respira. Você sabe o que precisa fazer.'},
-  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:24,hero:true,girl:false,
-   t:'Mas primeiro... você precisa merecer.'},
-  {c:'Capítulo 1',sp:'NARRADOR',bg:'city',sc:'city',hx:24,hero:true,girl:false,
-   t:'O universo colocou um desafio em seu caminho...'},
-  {c:'Capítulo 1 — MINI-GAME',sp:'NARRADOR',bg:'city',sc:'city',hx:24,hero:true,girl:false,
-   t:'Corte as carnes que aparecem! Não deixe nenhuma cair! [Clique para jogar]',tag:'ninja'},
+  // ─────────────────────────────────────────
+  //  CAP 1 — O AÇOUGUE
+  // ─────────────────────────────────────────
+  {c:'Capítulo 1 — O Açougue',sp:'NARRADOR',bg:'night',sc:'city',hx:28,hero:true,girl:false,h:3,
+   t:'Era uma tarde como qualquer outra.'},
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'butcher',sc:'cafe',hx:28,hero:true,girl:false,
+   t:'...até que ele entrou no açougue do bairro.'},
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'butcher',sc:'cafe',hx:28,hero:true,girl:false,
+   t:'E lá estava ela. Trabalhando no balcão, como se fosse a coisa mais natural do mundo.'},
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'butcher',sc:'cafe',hx:28,hero:true,girl:true,
+   t:'Mas antes de qualquer coisa... ele precisava provar seu valor.'},
+  {c:'Capítulo 1 — MINI-GAME',sp:'NARRADOR',bg:'butcher',sc:'cafe',hx:24,hero:true,girl:false,
+   t:'Corte as carnes! Mostre que você merece a atenção dela! [Clique para jogar]',tag:'ninja'},
 
-  // AFTER NINJA — girl refuses
-  {c:'Capítulo 1',sp:'NARRADOR',bg:'city',sc:'city',hx:20,hero:true,girl:true,
-   t:'Finalmente ele chegou até ela...'},
-  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:20,hero:true,girl:true,
-   t:'Oi, {name}... eu precisava te falar uma coisa.'},
-  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:20,hero:true,girl:true,
-   t:'Eu gosto muito de você. Acho que você é incrível.'},
-  {c:'Capítulo 1',sp:'{name}',bg:'city',sc:'city',hx:20,hero:true,girl:true,isgirl:true,
-   t:'Ah... obrigada. Mas... eu não sei.'},
-  {c:'Capítulo 1',sp:'{name}',bg:'city',sc:'city',hx:20,hero:true,girl:true,isgirl:true,
-   t:'Acho que não estou pronta pra isso agora.'},
-  {c:'Capítulo 1',sp:'NARRADOR',bg:'city',sc:'city',hx:28,hero:true,girl:false,
-   t:'Ela foi embora. Ele ficou ali, parado.'},
-  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:28,hero:true,girl:false,
-   t:'Tudo bem. Eu entendo.'},
-  {c:'Capítulo 1',sp:'ELE',bg:'city',sc:'city',hx:28,hero:true,girl:false,
+  // após ninja
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'butcher',sc:'cafe',hx:22,hero:true,girl:true,
+   t:'Missão cumprida. Agora... era hora de ser honesto.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'butcher',sc:'cafe',hx:22,hero:true,girl:true,
+   t:'Ei, desculpa te atrapalhar. Mas eu achei você muito interessante.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'butcher',sc:'cafe',hx:22,hero:true,girl:true,
+   t:'Ainda estou me entendendo como pessoa. Mas sei o que sinto.'},
+  {c:'Capítulo 1',sp:'{name}',bg:'butcher',sc:'cafe',hx:22,hero:true,girl:true,isgirl:true,
+   t:'Isso foi... inesperado.'},
+  {c:'Capítulo 1',sp:'{name}',bg:'butcher',sc:'cafe',hx:22,hero:true,girl:true,isgirl:true,
+   t:'Obrigada. Mas agora não é a hora pra isso.'},
+  {c:'Capítulo 1',sp:'NARRADOR',bg:'night',sc:'city',hx:28,hero:true,girl:false,
+   t:'Ela voltou ao trabalho. Ele foi embora sem fazer cena.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'night',sc:'city',hx:28,hero:true,girl:false,
+   t:'Tudo bem. A vida segue.'},
+  {c:'Capítulo 1',sp:'ELE',bg:'night',sc:'city',hx:28,hero:true,girl:false,
    t:'Mas ainda tem algo que precisa ser dito.'},
 
-  // CAP 2 — CAFE / DOKI DOKI
+  // ─────────────────────────────────────────
+  //  CAP 2 — A CAFETERIA
+  // ─────────────────────────────────────────
   {c:'Capítulo 2 — A Cafeteria',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:28,hero:true,girl:false,
    t:'Semanas depois. Uma cafeteria no centro da cidade.'},
   {c:'Capítulo 2',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:28,hero:true,girl:false,
    t:'Ele a viu lá, sozinha com um livro.'},
   {c:'Capítulo 2',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:28,hero:true,girl:false,
-   t:'O coração disparou. Mas dessa vez, ele foi com calma.'},
-  {c:'Capítulo 2 — ESCOLHA',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,
+   t:'O coração acelerou. Mas dessa vez, ele foi com calma.'},
+  {c:'Capítulo 2 — ESCOLHA',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,
    t:'Escolha as palavras certas pra ela... [Clique para abrir o diálogo]',tag:'doki'},
-  // after doki
-  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
-   t:'Hahaha... você é engraçado, sabia?'},
-  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
-   t:'Mas olha... eu ainda acho que a gente é de mundos diferentes.'},
-  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
-   t:'Sinto muito.'},
-  {c:'Capítulo 2',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:false,
-   t:'Tudo bem. Eu entendo isso também.'},
-  {c:'Capítulo 2',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:false,
-   t:'Mas vai ter uma última vez.'},
 
-  // CAP 3 — DISCURSO + DINO
+  // após doki
+  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
+   t:'Uau... você mudou. Dá pra notar.'},
+  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
+   t:'Mas olha... eu ainda preciso de mais tempo pra mim.'},
+  {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
+   t:'Isso não é sobre você. É sobre mim. Sinto muito.'},
+  {c:'Capítulo 2',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:false,
+   t:'Entendo. Respeito isso completamente.'},
+  {c:'Capítulo 2',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:false,
+   t:'Mas vai ter uma última vez. E eu quero fazer direito.'},
+
+  // ─────────────────────────────────────────
+  //  CAP 3 — A ÚLTIMA VEZ
+  // ─────────────────────────────────────────
   {c:'Capítulo 3 — A Última Vez',sp:'NARRADOR',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
-   t:'Ele passou semanas pensando.'},
+   t:'Meses se passaram. Ele cresceu.'},
   {c:'Capítulo 3',sp:'NARRADOR',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
-   t:'Pensando em tudo. Nos momentos. No que sentiu.'},
+   t:'Não estava mais preso em sentimentos. Estava presente.'},
   {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
-   t:'A gente é de mundos diferentes. Isso eu aceito.'},
+   t:'Não estou cego de amor. Sei que pode não funcionar.'},
   {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
-   t:'Mas mundos diferentes às vezes se encontram.'},
+   t:'Mas eu seria desonesto comigo mesmo se não tentasse.'},
   {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
-   t:'E quando se encontram... pode ser algo bonito.'},
-  {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
-   t:'Não precisa ser eterno. Não precisa ser perfeito.'},
-  {c:'Capítulo 3',sp:'ELE',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
-   t:'Só precisa ser real.'},
-  {c:'Capítulo 3',sp:'NARRADOR',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
-   t:'Com esse pensamento, ele correu.'},
+   t:'Não precisa ser eterno. Só precisa ser real.'},
+  {c:'Capítulo 3',sp:'NARRADOR',bg:'golden',sc:'park',hx:28,hero:true,girl:false,
+   t:'Com esse pensamento, ele decidiu fazer algo que ela nunca esperaria.'},
   {c:'Capítulo 3 — CORRIDA',sp:'NARRADOR',bg:'golden',sc:'park',hx:28,hero:true,girl:false,
-   t:'Corra até ela! Desvie dos obstáculos! [Clique para jogar]',tag:'dino'},
-  // final encounter
-  {c:'Capítulo 3 — O Fim',sp:'NARRADOR',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
-   t:'Ele chegou até ela, sem fôlego.'},
-  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
+   t:'Corra 3km até ela! Clique ou pressione SPACE para pular! [Clique para jogar]',tag:'dino'},
+
+  // encontro final — chegada estilo castelo do Mario
+  {c:'Capítulo 3 — Chegou!',sp:'NARRADOR',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
+   t:'3 quilômetros depois. Sem fôlego. Mas chegou.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
    t:'Oi, {name}.'},
-  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
-   t:'Eu sei que já falei isso antes. E eu sei que é diferente.'},
-  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
-   t:'Mas tem algo em você que me faz querer tentar.'},
-  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
-   t:'Não precisa ser nada sério. Só um encontro.'},
-  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:22,hero:true,girl:true,
-   t:'Uma chance pra gente descobrir se existe algo aqui.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
+   t:'Eu corri 3km até aqui. Não por loucura.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
+   t:'Mas porque você merece alguém que vai até o fim pelo que acredita.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
+   t:'Eu sei quem eu sou agora. E sei o que quero.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
+   t:'Só um encontro. Uma conversa de verdade.'},
+  {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
+   t:'Deixa eu te mostrar que mundos diferentes podem criar algo especial.'},
+  {c:'Capítulo 3',sp:'{name}',bg:'golden',sc:'park',hx:14,hero:true,girl:true,isgirl:true,
+   t:'Você... realmente correu até aqui?'},
+  {c:'Capítulo 3',sp:'{name}',bg:'golden',sc:'park',hx:14,hero:true,girl:true,isgirl:true,
+   t:'Isso foi muito idiota.'},
+  {c:'Capítulo 3',sp:'{name}',bg:'golden',sc:'park',hx:14,hero:true,girl:true,isgirl:true,
+   t:'...e muito fofo ao mesmo tempo.'},
 ];
 
 // ═══════════════════════════════════════════
@@ -472,7 +497,7 @@ const S=[
 // ═══════════════════════════════════════════
 function buildStars(){
   const c=document.getElementById('stars');
-  for(let i=0;i<55;i++){
+  for(let i=0;i<65;i++){
     const s=document.createElement('div');s.className='star';
     const sz=Math.random()*1.4+.4;
     s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${(Math.random()*2+1.5).toFixed(1)}s;--dl:${(Math.random()*2).toFixed(1)}s`;
@@ -520,7 +545,7 @@ function playScene(){
   document.getElementById('gCity').style.opacity=(s.sc==='city')?1:0;
   document.getElementById('gPark').style.opacity=(s.sc==='park')?1:0;
   document.getElementById('gMem').style.opacity=(s.sc==='mem')?1:0;
-  document.getElementById('gCafe').style.opacity=(s.sc==='cafe')?1:0;
+  document.getElementById('gCafe').style.opacity=(s.sc==='cafe'||s.sc==='butcher')?1:0;
   const hero=document.getElementById('hero');
   const girl=document.getElementById('girl');
   hero.style.opacity=s.hero?1:0;
@@ -575,7 +600,6 @@ function startNinja(){
   show('ninja-screen');
   document.getElementById('ninja-msg').classList.remove('on');
   const canvas=document.getElementById('ninja-canvas');
-  const hud=document.getElementById('ninja-hud');
   const W=canvas.offsetWidth,H=canvas.offsetHeight;
   canvas.width=W;canvas.height=H;
   const ctx=canvas.getContext('2d');
@@ -587,7 +611,6 @@ function startNinja(){
   document.getElementById('ninja-lives').textContent=3;
 
   const meats=['🥩','🍖','🍗','🥓'];
-  // Slice trail
   let mouse={x:-1,y:-1,px:-1,py:-1};
   let trails=[];
 
@@ -604,22 +627,18 @@ function startNinja(){
 
   function drawScene(){
     ctx.clearRect(0,0,W,H);
-    // bg gradient
     const grad=ctx.createLinearGradient(0,0,0,H);
-    grad.addColorStop(0,'#0a0520');grad.addColorStop(1,'#1a0a3e');
+    grad.addColorStop(0,'#200808');grad.addColorStop(1,'#3d0a0a');
     ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
-    // grid lines
-    ctx.strokeStyle='rgba(168,85,247,0.06)';ctx.lineWidth=1;
+    ctx.strokeStyle='rgba(255,107,157,0.06)';ctx.lineWidth=1;
     for(let gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
     for(let gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
-    // slash trails
     trails=trails.filter(t=>{
       t.life-=2;
       ctx.beginPath();ctx.moveTo(t.x1,t.y1);ctx.lineTo(t.x2,t.y2);
       ctx.strokeStyle=`rgba(255,107,157,${t.life/100})`;ctx.lineWidth=3;ctx.stroke();
       return t.life>0;
     });
-    // meats
     spawns.forEach(m=>{
       if(m.sliced)return;
       ctx.save();ctx.translate(m.x,m.y);ctx.rotate(m.rot);
@@ -627,7 +646,6 @@ function startNinja(){
       ctx.fillText(m.em,0,0);
       ctx.restore();
     });
-    // sliced particles
     slices=slices.filter(p=>{
       p.life-=3;p.y+=p.vy;p.x+=p.vx;p.vy+=0.4;
       ctx.save();ctx.globalAlpha=p.life/100;
@@ -635,7 +653,6 @@ function startNinja(){
       ctx.fillText('✨',p.x,p.y);ctx.restore();
       return p.life>0;
     });
-    // score text
     ctx.fillStyle='#ff6b9d';ctx.font="8px 'Press Start 2P'";
     ctx.textAlign='left';ctx.fillText(`Score: ${score}/${GOAL}`,10,18);
     ctx.textAlign='right';ctx.fillText(`Vidas: ${'❤️'.repeat(lives)}`,W-10,18);
@@ -653,6 +670,7 @@ function startNinja(){
       if(d<m.size*.7){
         m.sliced=true;score++;
         document.getElementById('ninja-score').textContent=score;
+        carisma++;
         for(let i=0;i<4;i++)slices.push({x:m.x,y:m.y,vx:(Math.random()-.5)*5,vy:-3-Math.random()*4,life:80});
         chirpSlice();
         if(score>=GOAL&&!won){won=true;endNinja(true);}
@@ -663,13 +681,11 @@ function startNinja(){
   function loop(){
     if(gameOver)return;
     frame++;spawnTimer++;
-    // spawn every ~80 frames, faster as score increases
     const rate=Math.max(35,80-score*4);
     if(spawnTimer>=rate){spawnTimer=0;spawnMeat();}
     spawns.forEach(m=>{
       if(m.sliced)return;
       m.x+=m.vx;m.y+=m.vy;m.vy+=0.22;m.rot+=m.vrot;
-      // missed - fell below screen
       if(m.y>H+60&&!m.sliced){
         m.sliced=true;lives--;
         document.getElementById('ninja-lives').textContent=lives;
@@ -677,13 +693,11 @@ function startNinja(){
         if(lives<=0&&!won){gameOver=true;endNinja(false);return;}
       }
     });
-    // prune old
     if(spawns.length>30)spawns=spawns.filter(m=>!m.sliced);
     drawScene();
     requestAnimationFrame(loop);
   }
 
-  // events
   function onMove(e){
     const r=canvas.getBoundingClientRect();
     const cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
@@ -718,7 +732,7 @@ function startNinja(){
     }
     document.getElementById('ninja-msg-btn').onclick=()=>{
       if(!success){startNinja();return;}
-      fadeTo(()=>{idx++;show('game-screen');playScene();});
+      fadeTo(()=>{idx++;show('game-screen');updateCarisma();playScene();});
     };
   }
 }
@@ -736,27 +750,27 @@ function chirpSlice(){
 }
 
 // ═══════════════════════════════════════════
-//  DOKI DOKI WORD GAME
+//  DOKI DOKI WORD GAME — palavras no feminino
 // ═══════════════════════════════════════════
 const WORD_POOL=[
-  {w:'honesto',pts:3,cat:'A'},
+  {w:'honesta',pts:3,cat:'A'},
   {w:'gentil',pts:2,cat:'A'},
-  {w:'engraçado',pts:2,cat:'B'},
-  {w:'sincero',pts:3,cat:'A'},
+  {w:'engraçada',pts:2,cat:'B'},
+  {w:'sincera',pts:3,cat:'A'},
   {w:'diferente',pts:1,cat:'B'},
-  {w:'curioso',pts:2,cat:'B'},
-  {w:'sortudo',pts:1,cat:'C'},
-  {w:'intenso',pts:1,cat:'C'},
-  {w:'apaixonado',pts:2,cat:'A'},
-  {w:'calmo',pts:2,cat:'B'},
-  {w:'corajoso',pts:3,cat:'A'},
-  {w:'poético',pts:2,cat:'B'},
+  {w:'curiosa',pts:2,cat:'B'},
+  {w:'sortuda',pts:1,cat:'C'},
+  {w:'intensa',pts:1,cat:'C'},
+  {w:'apaixonada',pts:2,cat:'A'},
+  {w:'calma',pts:2,cat:'B'},
+  {w:'corajosa',pts:3,cat:'A'},
+  {w:'poética',pts:2,cat:'B'},
 ];
 
 const PHRASE_TEMPLATES={
-  high:'Você é alguém realmente especial. E eu só queria que soubesse disso.',
-  mid:'Talvez a gente seja diferentes... mas isso não me faz sentir menos.',
-  low:'Eu só queria ser verdadeiro com você, mesmo que seja estranho.',
+  high:'Você é uma das pessoas mais especiais que já conheci. E eu só queria que soubesse disso.',
+  mid:'Talvez a gente seja diferentes... mas isso não me faz sentir menos por você.',
+  low:'Eu só queria ser verdadeiro com você, mesmo que seja estranho dizer isso.',
 };
 
 let dokiPicked=[];
@@ -768,7 +782,6 @@ function startDoki(){
   document.getElementById('carisma-display').style.display='none';
   const container=document.getElementById('doki-words');
   container.innerHTML='';
-  // shuffle pool, pick 9
   const pool=[...WORD_POOL].sort(()=>Math.random()-.5).slice(0,9);
   pool.forEach(wp=>{
     const btn=document.createElement('button');
@@ -785,7 +798,6 @@ function dokiPick(btn,wp){
     dokiPicked=dokiPicked.filter(p=>p.w!==wp.w);
   } else {
     if(dokiPicked.length>=3){
-      // deselect first
       const first=dokiPicked.shift();
       document.querySelectorAll('.dword').forEach(b=>{if(b.dataset.w===first.w)b.classList.remove('picked');});
     }
@@ -800,7 +812,7 @@ function updateDokiPhrase(){
   const dbtn=document.getElementById('doki-btn');
   if(dokiPicked.length===0){box.textContent='...';dbtn.classList.remove('ready');return;}
   const words=dokiPicked.map(p=>p.w).join(', ');
-  box.textContent=`Palavras: ${words}`;
+  box.textContent=`Palavras escolhidas: ${words}`;
   if(dokiPicked.length===3){dbtn.classList.add('ready');}
   else{dbtn.classList.remove('ready');}
 }
@@ -810,7 +822,6 @@ document.getElementById('doki-btn').addEventListener('click',()=>{
   const pts=dokiPicked.reduce((a,p)=>a+p.pts,0);
   carisma+=pts;
   const phrase=pts>=7?PHRASE_TEMPLATES.high:pts>=5?PHRASE_TEMPLATES.mid:PHRASE_TEMPLATES.low;
-  // show result
   document.getElementById('doki-phrase-box').textContent='"'+phrase+'"';
   document.getElementById('carisma-display').style.display='block';
   document.getElementById('carisma-display').textContent=`⭐ +${pts} Carisma! Total: ${carisma}`;
@@ -826,7 +837,7 @@ document.getElementById('doki-btn').addEventListener('click',()=>{
 });
 
 // ═══════════════════════════════════════════
-//  DINO RUN MINI-GAME
+//  DINO RUN — 3KM
 // ═══════════════════════════════════════════
 let dinoState={};
 function startDino(){
@@ -841,7 +852,7 @@ function startDino(){
   let dino={x:60,y:GND,vy:0,onGround:true,w:20,h:30};
   let obstacles=[],particles=[];
   let score=0,lives=3,speed=3,gameOver=false,won=false,frame=0,obstTimer=0;
-  const WIN_SCORE=300;
+  const WIN_SCORE=1500; // ~3000m na exibição
 
   document.getElementById('dino-score').textContent=0;
   document.getElementById('dino-lives').textContent=lives;
@@ -858,19 +869,15 @@ function startDino(){
   function drawDino(){
     const y=dino.y-dino.h;
     ctx.fillStyle='#ff6b9d';
-    // body
     ctx.fillRect(dino.x,y,dino.w,dino.h);
-    // eye
     ctx.fillStyle='#fff';
     ctx.fillRect(dino.x+dino.w-6,y+4,5,5);
     ctx.fillStyle='#0f0921';
     ctx.fillRect(dino.x+dino.w-4,y+6,3,3);
-    // legs (animation)
     const leg=frame%20<10?0:4;
     ctx.fillStyle='#ff6b9d';
     ctx.fillRect(dino.x+4,dino.y,5,8+leg);
     ctx.fillRect(dino.x+dino.w-9,dino.y,5,8+(leg?0:4));
-    // arm
     ctx.fillRect(dino.x+dino.w,y+8,8,4);
   }
 
@@ -894,20 +901,20 @@ function startDino(){
     const grad=ctx.createLinearGradient(0,0,0,H);
     grad.addColorStop(0,'#08051a');grad.addColorStop(.7,'#1a0a3e');grad.addColorStop(1,'#0a1f15');
     ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
-    // ground
     ctx.fillStyle='#2d1b69';ctx.fillRect(0,GND,W,3);
     ctx.fillStyle='#1e1040';ctx.fillRect(0,GND+3,W,H-GND-3);
-    // stars
     ctx.fillStyle='rgba(255,255,255,0.4)';
     for(let i=0;i<18;i++){
       const sx=(i*73+frame*.2)%W;
-      const sy=(i*37)%( GND-20);
+      const sy=(i*37)%(GND-20);
       ctx.fillRect(sx,sy,1+i%2,1+i%2);
     }
-    // score line
-    ctx.fillStyle='rgba(168,85,247,0.15)';
+    // barra de progresso dos 3km
     const prog=Math.min(1,score/WIN_SCORE);
-    ctx.fillRect(0,H-3,W*prog,3);
+    ctx.fillStyle='rgba(255,107,157,0.18)';
+    ctx.fillRect(0,H-4,W*prog,4);
+    ctx.fillStyle='rgba(255,107,157,0.7)';
+    ctx.fillRect(W*prog-2,H-4,2,4);
   }
 
   function checkCollide(o){
@@ -917,18 +924,15 @@ function startDino(){
   function loop(){
     if(gameOver)return;
     frame++;score++;obstTimer++;
-    speed=3+score/200;
-    document.getElementById('dino-score').textContent=Math.floor(score/3);
-    // jump
+    speed=3+score/250;
+    // exibe em metros (máx 3000)
+    document.getElementById('dino-score').textContent=Math.min(3000,Math.floor(score*2));
     if(!dino.onGround){dino.vy+=0.7;dino.y+=dino.vy;}
     if(dino.y>=GND){dino.y=GND;dino.vy=0;dino.onGround=true;}
-    // spawn
-    const rate=Math.max(40,110-score/10);
+    const rate=Math.max(40,110-score/15);
     if(obstTimer>=rate){obstTimer=0;spawnObs();}
-    // move obstacles
     obstacles.forEach(o=>o.x-=speed);
     obstacles=obstacles.filter(o=>o.x>-50);
-    // collide
     obstacles.forEach(o=>{
       if(checkCollide(o)&&!o.hit){
         o.hit=true;lives--;
@@ -937,9 +941,7 @@ function startDino(){
         if(lives<=0&&!won){gameOver=true;endDino(false);return;}
       }
     });
-    // particles
     particles=particles.filter(p=>{p.life-=3;p.x+=p.vx;p.y+=p.vy;p.vy+=.3;return p.life>0;});
-    // win
     if(score>=WIN_SCORE&&!won){won=true;gameOver=true;endDino(true);return;}
     drawBg();
     drawDino();
@@ -969,11 +971,12 @@ function startDino(){
     const txt=document.getElementById('dino-msg-txt');
     const sub=document.getElementById('dino-msg-sub');
     if(success){
-      txt.innerHTML='🏁 VOCÊ CHEGOU LÁ!<br>Sem fôlego, mas chegou.';
-      sub.innerHTML='Agora é a hora de ser<br>honesto de verdade.';
+      txt.innerHTML='🏁 3KM CONCLUÍDOS!<br>Igual ao Mario no castelo!';
+      sub.innerHTML='Sem fôlego, mas chegou.<br>Agora é a hora de ser honesto.';
+      burst(20);
     } else {
-      txt.innerHTML='😤 Não foi dessa vez...<br>Mas você não desiste, né?';
-      sub.innerHTML='Tente de novo!';
+      txt.innerHTML='😤 Ainda falta caminho...<br>Mas você não desiste, né?';
+      sub.innerHTML='Levante e tente de novo!';
     }
     document.getElementById('dino-msg-btn').onclick=()=>{
       if(!success){startDino();return;}
@@ -998,22 +1001,19 @@ function chirpJump(){
 // ═══════════════════════════════════════════
 //  FINAL CHOICE
 // ═══════════════════════════════════════════
-const noTexts=[
-  'Tem certeza mesmo? 🥺',
-  'O botão fugiu...<br>sinal do universo 💫',
-  'Impossível clicar nisso. 🌌',
-  '...ele desapareceu. 💨',
-];
 function openChoice(){
   show('choice-screen');noBails=0;
   const nb=document.getElementById('btn-no');
   nb.style.position='';nb.style.left='';nb.style.top='';
   nb.style.opacity='1';nb.style.pointerEvents='auto';
-  document.getElementById('choice-q').innerHTML='Quer ir em um<br>date comigo? 🌟';
+  document.getElementById('choice-q').innerHTML=
+    `${girlName},<br>quer ir em um date<br>comigo? 🌟<br><span style="font-size:5px;color:var(--lavender);display:block;margin-top:6px;line-height:2">só pra ver o que acontece...</span>`;
 }
+
 document.getElementById('btn-yes').addEventListener('click',()=>{
-  burst(24);setTimeout(()=>fadeTo(()=>showEnding()),800);
+  burst(28);setTimeout(()=>fadeTo(()=>showEnding()),900);
 });
+
 document.getElementById('btn-no').addEventListener('click',()=>{
   noBails++;
   const cs=document.getElementById('choice-screen');
@@ -1023,6 +1023,12 @@ document.getElementById('btn-no').addEventListener('click',()=>{
   btn.style.position='absolute';
   btn.style.left=(20+Math.random()*maxX)+'px';
   btn.style.top=(20+Math.random()*maxY)+'px';
+  const noTexts=[
+    `${girlName}... tem certeza mesmo? 🥺`,
+    'O botão correu igual eu corri pra você 💫',
+    'Impossível apertar isso. O destino decidiu. 🌌',
+    '...o botão desapareceu. Acho que o universo respondeu. 💨',
+  ];
   const txt=noTexts[noBails-1];
   if(txt)document.getElementById('choice-q').innerHTML=txt;
   if(noBails>=4){btn.style.opacity='0';btn.style.pointerEvents='none';}
@@ -1034,15 +1040,20 @@ document.getElementById('btn-no').addEventListener('click',()=>{
 function showEnding(){
   show('ending-screen');
   document.getElementById('end-em').textContent='🌟❤️🌟';
-  const bonus=carisma>=9?'\n\nSeu carisma brilhou! ⭐':'';
+  const bonus = carisma>=12
+    ? `<br><br>Seu carisma brilhou (${carisma}⭐).<br>Ela notou cada detalhe.`
+    : carisma>=6
+    ? `<br><br>Seu esforço valeu a pena. ⭐`
+    : '';
   document.getElementById('end-txt').innerHTML=
-    `${girlName},<br>você é especial.<br><br>Pode ser uma<br>aventura muito bonita.${bonus.replace('\n\n','<br><br>')}`;
-  let n=0;const iv=setInterval(()=>{spawnParticle();if(++n>32)clearInterval(iv);},140);
+    `${girlName},<br><br>você é especial.<br><br>E eu corri 3km<br>só pra provar isso.<br><br>Vamos descobrir juntos<br>o que essa aventura<br>pode ser.${bonus}`;
+  let n=0;const iv=setInterval(()=>{spawnParticle();if(++n>40)clearInterval(iv);},120);
 }
+
 function resetGame(){
   idx=0;noBails=0;hearts=3;carisma=0;
   document.getElementById('ninp').value='';
-  document.getElementById('carisma-bar').style.display='none';
+  document.getElementById('charisma-bar').style.display='none';
   fadeTo(()=>show('title-screen'));
 }
 
@@ -1050,13 +1061,13 @@ function resetGame(){
 //  PARTICLES
 // ═══════════════════════════════════════════
 const ems=['❤️','💕','💗','💝','✨','🌟','💫','⭐'];
-function burst(n){for(let i=0;i<n;i++)setTimeout(spawnParticle,i*70);}
+function burst(n){for(let i=0;i<n;i++)setTimeout(spawnParticle,i*60);}
 function spawnParticle(){
   const p=document.createElement('div');p.className='par';
   p.textContent=ems[~~(Math.random()*ems.length)];
   const g=document.getElementById('game');
   const w=g.offsetWidth,h=g.offsetHeight;
-  p.style.cssText=`left:${Math.random()*w}px;top:${50+Math.random()*(h-80)}px;font-size:${10+Math.random()*14}px`;
+  p.style.cssText=`left:${Math.random()*w}px;top:${50+Math.random()*(h-80)}px;font-size:${10+Math.random()*16}px`;
   g.appendChild(p);setTimeout(()=>p.remove(),2100);
 }
 
