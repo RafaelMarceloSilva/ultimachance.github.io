@@ -11,6 +11,7 @@
   --dark:#080514;--bg:#0f0921;--pink:#ff6b9d;--pink2:#ff8fb3;
   --purple:#a855f7;--lavender:#c4b5fd;--gold:#fbbf24;--text:#f0e6ff;
   --dim:#7c5cbf;--green:#16a34a;--glow:rgba(255,107,157,.25);
+  --wa:#25d366;
 }
 body{
   background:radial-gradient(ellipse 80% 60% at 50% 40%,#1a0a3e,#080514);
@@ -103,16 +104,183 @@ body{
 #dino-msg-txt{font-size:9px;color:var(--purple);text-align:center;line-height:2.2}
 #dino-msg-sub{font-size:6px;color:var(--dim);text-align:center;line-height:2}
 
-/* CHOICE + ENDING */
+/* CHOICE */
 #choice-screen{gap:14px;padding:20px;overflow:hidden;position:relative}
 #choice-q{font-size:8px;color:var(--text);text-align:center;line-height:2.6}
 #btn-yes{font-family:'Press Start 2P',monospace;font-size:7px;padding:10px 24px;background:var(--pink);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 0 #9c2f57,0 0 20px rgba(255,107,157,.5),0 0 40px rgba(255,107,157,.2);transition:all .2s}
 #btn-yes:hover{filter:brightness(1.2);transform:scale(1.08)}
 #btn-no{font-family:'Press Start 2P',monospace;font-size:6px;padding:8px 18px;background:transparent;color:var(--dim);border:2px solid var(--dim);cursor:pointer;transition:all .18s}
 #btn-no:hover{color:var(--text);border-color:var(--lavender)}
-#ending-screen{gap:10px;padding:20px}
-#end-em{font-size:32px;animation:fh 2s ease-in-out infinite}
-#end-txt{font-size:7px;color:var(--pink);text-align:center;line-height:2.8;text-shadow:0 0 12px rgba(255,107,157,.5)}
+
+/* ══ ENDING SCREEN ══ */
+#ending-screen{gap:10px;padding:18px}
+#end-em{
+  font-size:clamp(22px,6vw,34px);
+  animation:fh 2s ease-in-out infinite;
+}
+#end-txt{
+  font-size:clamp(5.5px,1.5vw,7.5px);
+  color:var(--pink);
+  text-align:center;
+  line-height:2.8;
+  text-shadow:0 0 14px rgba(255,107,157,.55);
+}
+#agendar-btn{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(5.5px,1.5vw,7px);
+  padding:10px 22px;
+  background:var(--pink);
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 4px 0 #9c2f57, 0 0 18px rgba(255,107,157,.55);
+  transition:all .2s;
+  animation:pulse-glow 2s ease-in-out infinite;
+}
+#agendar-btn:hover{filter:brightness(1.15);transform:scale(1.05)}
+#agendar-btn:active{transform:scale(.97) translateY(2px)}
+@keyframes pulse-glow{
+  0%,100%{box-shadow:0 4px 0 #9c2f57,0 0 18px rgba(255,107,157,.5)}
+  50%{box-shadow:0 4px 0 #9c2f57,0 0 32px rgba(255,107,157,.9)}
+}
+.end-reset{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(4px,1.1vw,5px);
+  padding:6px 14px;
+  background:transparent;
+  border:1px solid var(--dim);
+  color:var(--dim);
+  cursor:pointer;
+  transition:all .15s;
+}
+.end-reset:hover{border-color:var(--lavender);color:var(--lavender)}
+
+/* ══ FORM SCREEN ══ */
+#form-screen{
+  justify-content:flex-start;
+  align-items:center;
+  gap:7px;
+  padding:10px 14px 8px;
+  overflow-y:auto;
+  cursor:default;
+}
+.form-title{
+  font-size:clamp(7px,2vw,9px);
+  color:var(--pink);
+  letter-spacing:2px;
+  text-shadow:0 0 14px rgba(255,107,157,.5);
+  text-align:center;
+  margin-top:2px;
+}
+.form-sub{
+  font-size:clamp(4px,1.1vw,5px);
+  color:var(--dim);
+  letter-spacing:2px;
+  text-align:center;
+  margin-top:-2px;
+}
+.form-row{
+  display:flex;
+  gap:10px;
+  width:100%;
+}
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  flex:1;
+}
+.form-group.full{
+  width:100%;
+  flex:none;
+}
+.form-lbl{
+  font-size:clamp(4px,1.1vw,5px);
+  color:var(--dim);
+  letter-spacing:1.5px;
+}
+.form-inp{
+  background:rgba(255,107,157,.05);
+  border:none;
+  border-bottom:2px solid var(--pink);
+  color:var(--text);
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(5px,1.4vw,6.5px);
+  padding:5px 6px;
+  outline:none;
+  width:100%;
+  color-scheme:dark;
+  border-radius:0;
+  -webkit-appearance:none;
+}
+.form-inp:focus{
+  background:rgba(255,107,157,.08);
+  border-bottom-color:var(--lavender);
+}
+.food-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+  width:100%;
+}
+.food-btn{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(3.5px,1vw,4.5px);
+  padding:6px 3px;
+  background:rgba(255,107,157,.05);
+  color:var(--dim);
+  border:1px solid rgba(124,92,191,.3);
+  cursor:pointer;
+  transition:all .15s;
+  line-height:1.9;
+  text-align:center;
+}
+.food-btn:hover:not(.sel){
+  border-color:var(--lavender);
+  color:var(--lavender);
+  background:rgba(196,181,253,.06);
+}
+.food-btn.sel{
+  background:rgba(255,107,157,.2);
+  color:var(--text);
+  border-color:var(--pink);
+  box-shadow:0 0 8px rgba(255,107,157,.35);
+}
+#form-err{
+  font-size:clamp(4px,1.1vw,5px);
+  color:#f87171;
+  display:none;
+  text-align:center;
+  letter-spacing:1px;
+}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+#send-btn{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(5px,1.4vw,6.5px);
+  padding:9px 18px;
+  background:var(--wa);
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 4px 0 #1a9e4a, 0 0 14px rgba(37,211,102,.4);
+  transition:all .15s;
+  margin-top:2px;
+}
+#send-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+#send-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #1a9e4a}
+.form-back{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(4px,1.1vw,5px);
+  padding:5px 12px;
+  background:transparent;
+  border:1px solid var(--dim);
+  color:var(--dim);
+  cursor:pointer;
+  transition:all .15s;
+}
+.form-back:hover{border-color:var(--lavender);color:var(--lavender)}
+
+/* PARTICLES */
 .par{position:absolute;pointer-events:none;z-index:95;animation:pfly 1.8s ease-out forwards}
 @keyframes pfly{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-130px) scale(.2);opacity:0}}
 </style>
@@ -203,7 +371,7 @@ body{
           <rect x="170" y="160" width="3" height="3" fill="#f472b6" opacity=".8"/>
           <rect x="395" y="158" width="4" height="4" fill="#fbbf24" opacity=".8"/>
         </g>
-        <!-- CAFE / AÇOUGUE (reutilizado) -->
+        <!-- CAFE / AÇOUGUE -->
         <g id="gCafe" opacity="0" style="transition:opacity 1s">
           <rect x="0" y="0" width="580" height="230" fill="#1a0a0a" opacity=".3"/>
           <rect x="60" y="60" width="460" height="170" fill="#2d1208"/>
@@ -268,40 +436,28 @@ body{
         <rect x="9" y="30" width="6" height="2" fill="#0f172a"/>
       </svg>
 
-      <!-- GIRL — cabelos castanhos, roupa preta -->
+      <!-- GIRL -->
       <svg class="char" id="girl" viewBox="0 0 16 32" xmlns="http://www.w3.org/2000/svg">
-        <!-- cabelo lateral -->
         <rect x="1" y="3" width="2" height="18" fill="#5c2d00"/>
         <rect x="13" y="3" width="2" height="18" fill="#5c2d00"/>
-        <!-- topo do cabelo -->
         <rect x="3" y="0" width="10" height="2" fill="#3d1c00"/>
         <rect x="2" y="1" width="12" height="4" fill="#5c2d00"/>
-        <!-- rosto -->
         <rect x="3" y="3" width="10" height="9" fill="#fcd5b0"/>
-        <!-- franja castanha -->
         <rect x="3" y="2" width="3" height="3" fill="#7c4500"/>
-        <!-- olhos -->
         <rect x="5" y="5" width="2" height="2" fill="#1a0a2e"/>
         <rect x="9" y="5" width="2" height="2" fill="#1a0a2e"/>
         <rect x="5" y="5" width="1" height="1" fill="white" opacity=".8"/>
         <rect x="9" y="5" width="1" height="1" fill="white" opacity=".8"/>
-        <!-- blush -->
         <rect x="4" y="8" width="2" height="1" fill="#ffb3c6" opacity=".9"/>
         <rect x="10" y="8" width="2" height="1" fill="#ffb3c6" opacity=".9"/>
-        <!-- boca -->
         <rect x="6" y="10" width="4" height="1" fill="#e05c8a"/>
-        <!-- blusa preta -->
         <rect x="3" y="12" width="10" height="6" fill="#1a1a1a"/>
-        <!-- braços pele -->
         <rect x="0" y="12" width="3" height="7" fill="#fcd5b0"/>
         <rect x="13" y="12" width="3" height="7" fill="#fcd5b0"/>
-        <!-- saia preta -->
         <rect x="2" y="18" width="12" height="6" fill="#111111"/>
         <rect x="1" y="22" width="14" height="5" fill="#1a1a1a"/>
-        <!-- pernas pele -->
         <rect x="5" y="26" width="3" height="4" fill="#fcd5b0"/>
         <rect x="8" y="26" width="3" height="4" fill="#fcd5b0"/>
-        <!-- sapatos pretos -->
         <rect x="4" y="29" width="4" height="3" fill="#111111"/>
         <rect x="8" y="29" width="4" height="3" fill="#111111"/>
       </svg>
@@ -360,7 +516,7 @@ body{
 
   <!-- CHOICE -->
   <div class="screen" id="choice-screen">
-    <div id="choice-q">Quer ir em um<br>date comigo? 🌟</div>
+    <div id="choice-q">Quer dar uma<br>chance pra gente?</div>
     <button id="btn-yes">Sim ❤️</button>
     <button id="btn-no" style="margin-top:6px">Não...</button>
   </div>
@@ -369,7 +525,38 @@ body{
   <div class="screen" id="ending-screen">
     <div id="end-em">🌟❤️🌟</div>
     <div id="end-txt"></div>
-    <button class="px-btn" style="font-size:5px;margin-top:14px" onclick="resetGame()">↺ recomeçar</button>
+    <button id="agendar-btn">📅 Agendar nosso encontro ❤️</button>
+    <button class="end-reset" onclick="resetGame()">↺ recomeçar</button>
+  </div>
+
+  <!-- FORM SCREEN -->
+  <div class="screen" id="form-screen">
+    <div class="form-title">📅 Agendar Encontro</div>
+    <div class="form-sub">— preencha os detalhes —</div>
+    <div class="form-row">
+      <div class="form-group">
+        <div class="form-lbl">DATA</div>
+        <input class="form-inp" type="date" id="f-date">
+      </div>
+      <div class="form-group">
+        <div class="form-lbl">HORÁRIO</div>
+        <input class="form-inp" type="time" id="f-time">
+      </div>
+    </div>
+    <div class="form-group full">
+      <div class="form-lbl">CULINÁRIA PREFERIDA</div>
+      <div class="food-grid">
+        <button class="food-btn" data-food="Italiana 🍝">Italiana 🍝</button>
+        <button class="food-btn" data-food="Japonesa 🍱">Japonesa 🍱</button>
+        <button class="food-btn" data-food="Churrasco 🥩">Churrasco 🥩</button>
+        <button class="food-btn" data-food="Mexicana 🌮">Mexicana 🌮</button>
+        <button class="food-btn" data-food="Árabe 🥘">Árabe 🥘</button>
+        <button class="food-btn" data-food="Contemporânea 🍽️">Contemporânea 🍽️</button>
+      </div>
+    </div>
+    <div id="form-err">⚠ Preencha todos os campos!</div>
+    <button id="send-btn">💬 Enviar pelo WhatsApp</button>
+    <button class="form-back" id="form-back-btn">← Voltar</button>
   </div>
 
 </div>
@@ -379,6 +566,7 @@ body{
 //  GLOBAL STATE
 // ═══════════════════════════════════════════
 let girlName='Ela', idx=0, typing=false, ttimer=null, noBails=0, hearts=3, carisma=0;
+let selectedFood='';
 let AC;
 
 const BG={
@@ -395,9 +583,6 @@ const BG={
 //  DIALOGUE SCRIPT
 // ═══════════════════════════════════════════
 const S=[
-  // ─────────────────────────────────────────
-  //  CAP 1 — O AÇOUGUE
-  // ─────────────────────────────────────────
   {c:'Capítulo 1 — O Açougue',sp:'NARRADOR',bg:'night',sc:'city',hx:28,hero:true,girl:false,h:3,
    t:'Era uma tarde como qualquer outra.'},
   {c:'Capítulo 1',sp:'NARRADOR',bg:'butcher',sc:'cafe',hx:28,hero:true,girl:false,
@@ -409,7 +594,6 @@ const S=[
   {c:'Capítulo 1 — MINI-GAME',sp:'NARRADOR',bg:'butcher',sc:'cafe',hx:24,hero:true,girl:false,
    t:'Corte as carnes! Mostre que você merece a atenção dela! [Clique para jogar]',tag:'ninja'},
 
-  // após ninja
   {c:'Capítulo 1',sp:'NARRADOR',bg:'butcher',sc:'cafe',hx:22,hero:true,girl:true,
    t:'Missão cumprida. Agora... era hora de ser honesto.'},
   {c:'Capítulo 1',sp:'ELE',bg:'butcher',sc:'cafe',hx:22,hero:true,girl:true,
@@ -427,9 +611,6 @@ const S=[
   {c:'Capítulo 1',sp:'ELE',bg:'night',sc:'city',hx:28,hero:true,girl:false,
    t:'Mas ainda tem algo que precisa ser dito.'},
 
-  // ─────────────────────────────────────────
-  //  CAP 2 — A CAFETERIA
-  // ─────────────────────────────────────────
   {c:'Capítulo 2 — A Cafeteria',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:28,hero:true,girl:false,
    t:'Semanas depois. Uma cafeteria no centro da cidade.'},
   {c:'Capítulo 2',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:28,hero:true,girl:false,
@@ -439,7 +620,6 @@ const S=[
   {c:'Capítulo 2 — ESCOLHA',sp:'NARRADOR',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,
    t:'Escolha as palavras certas pra ela... [Clique para abrir o diálogo]',tag:'doki'},
 
-  // após doki
   {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
    t:'Uau... você mudou. Dá pra notar.'},
   {c:'Capítulo 2',sp:'{name}',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:true,isgirl:true,
@@ -451,9 +631,6 @@ const S=[
   {c:'Capítulo 2',sp:'ELE',bg:'cafe',sc:'cafe',hx:24,hero:true,girl:false,
    t:'Mas vai ter uma última vez. E eu quero fazer direito.'},
 
-  // ─────────────────────────────────────────
-  //  CAP 3 — A ÚLTIMA VEZ
-  // ─────────────────────────────────────────
   {c:'Capítulo 3 — A Última Vez',sp:'NARRADOR',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
    t:'Meses se passaram. Ele cresceu.'},
   {c:'Capítulo 3',sp:'NARRADOR',bg:'mem',sc:'mem',hx:28,hero:true,girl:false,
@@ -469,7 +646,6 @@ const S=[
   {c:'Capítulo 3 — CORRIDA',sp:'NARRADOR',bg:'golden',sc:'park',hx:28,hero:true,girl:false,
    t:'Corra 3km até ela! Clique ou pressione SPACE para pular! [Clique para jogar]',tag:'dino'},
 
-  // encontro final — chegada estilo castelo do Mario
   {c:'Capítulo 3 — Chegou!',sp:'NARRADOR',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
    t:'3 quilômetros depois. Sem fôlego. Mas chegou.'},
   {c:'Capítulo 3',sp:'ELE',bg:'golden',sc:'park',hx:14,hero:true,girl:true,
@@ -750,7 +926,7 @@ function chirpSlice(){
 }
 
 // ═══════════════════════════════════════════
-//  DOKI DOKI WORD GAME — palavras no feminino
+//  DOKI DOKI WORD GAME
 // ═══════════════════════════════════════════
 const WORD_POOL=[
   {w:'honesta',pts:3,cat:'A'},
@@ -852,7 +1028,7 @@ function startDino(){
   let dino={x:60,y:GND,vy:0,onGround:true,w:20,h:30};
   let obstacles=[],particles=[];
   let score=0,lives=3,speed=3,gameOver=false,won=false,frame=0,obstTimer=0;
-  const WIN_SCORE=1500; // ~3000m na exibição
+  const WIN_SCORE=1500;
 
   document.getElementById('dino-score').textContent=0;
   document.getElementById('dino-lives').textContent=lives;
@@ -909,7 +1085,6 @@ function startDino(){
       const sy=(i*37)%(GND-20);
       ctx.fillRect(sx,sy,1+i%2,1+i%2);
     }
-    // barra de progresso dos 3km
     const prog=Math.min(1,score/WIN_SCORE);
     ctx.fillStyle='rgba(255,107,157,0.18)';
     ctx.fillRect(0,H-4,W*prog,4);
@@ -925,7 +1100,6 @@ function startDino(){
     if(gameOver)return;
     frame++;score++;obstTimer++;
     speed=3+score/250;
-    // exibe em metros (máx 3000)
     document.getElementById('dino-score').textContent=Math.min(3000,Math.floor(score*2));
     if(!dino.onGround){dino.vy+=0.7;dino.y+=dino.vy;}
     if(dino.y>=GND){dino.y=GND;dino.vy=0;dino.onGround=true;}
@@ -999,19 +1173,20 @@ function chirpJump(){
 }
 
 // ═══════════════════════════════════════════
-//  FINAL CHOICE
+//  CHOICE
 // ═══════════════════════════════════════════
 function openChoice(){
-  show('choice-screen');noBails=0;
+  show('choice-screen');
+  noBails=0;
   const nb=document.getElementById('btn-no');
-  nb.style.position='';nb.style.left='';nb.style.top='';
-  nb.style.opacity='1';nb.style.pointerEvents='auto';
-  document.getElementById('choice-q').innerHTML=
-    `${girlName},<br>quer ir em um date<br>comigo? 🌟<br><span style="font-size:5px;color:var(--lavender);display:block;margin-top:6px;line-height:2">só pra ver o que acontece...</span>`;
+  nb.style.position=''; nb.style.left=''; nb.style.top='';
+  nb.style.opacity='1'; nb.style.pointerEvents='auto';
+  document.getElementById('choice-q').innerHTML='Quer dar uma<br>chance pra gente?';
 }
 
 document.getElementById('btn-yes').addEventListener('click',()=>{
-  burst(28);setTimeout(()=>fadeTo(()=>showEnding()),900);
+  burst(28);
+  setTimeout(()=>fadeTo(()=>showEnding()),900);
 });
 
 document.getElementById('btn-no').addEventListener('click',()=>{
@@ -1030,8 +1205,8 @@ document.getElementById('btn-no').addEventListener('click',()=>{
     '...o botão desapareceu. Acho que o universo respondeu. 💨',
   ];
   const txt=noTexts[noBails-1];
-  if(txt)document.getElementById('choice-q').innerHTML=txt;
-  if(noBails>=4){btn.style.opacity='0';btn.style.pointerEvents='none';}
+  if(txt) document.getElementById('choice-q').innerHTML=txt;
+  if(noBails>=4){ btn.style.opacity='0'; btn.style.pointerEvents='none'; }
 });
 
 // ═══════════════════════════════════════════
@@ -1040,22 +1215,79 @@ document.getElementById('btn-no').addEventListener('click',()=>{
 function showEnding(){
   show('ending-screen');
   document.getElementById('end-em').textContent='🌟❤️🌟';
-  const bonus = carisma>=12
-    ? `<br><br>Seu carisma brilhou (${carisma}⭐).<br>Ela notou cada detalhe.`
-    : carisma>=6
-    ? `<br><br>Seu esforço valeu a pena. ⭐`
-    : '';
   document.getElementById('end-txt').innerHTML=
-    `${girlName},<br><br>você é especial.<br><br>E eu corri 3km<br>só pra provar isso.<br><br>Vamos descobrir juntos<br>o que essa aventura<br>pode ser.${bonus}`;
-  let n=0;const iv=setInterval(()=>{spawnParticle();if(++n>40)clearInterval(iv);},120);
+    `${girlName},<br>você é incrível.<br><br>Pode ser uma<br>aventura muito bonita. ✨`;
+  let n=0;
+  const iv=setInterval(()=>{ spawnParticle(); if(++n>28) clearInterval(iv); },160);
 }
 
+document.getElementById('agendar-btn').addEventListener('click',()=>{
+  fadeTo(()=>show('form-screen'));
+});
+
 function resetGame(){
-  idx=0;noBails=0;hearts=3;carisma=0;
+  idx=0; noBails=0; hearts=3; carisma=0; selectedFood='';
+  document.querySelectorAll('.food-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('f-date').value='';
+  document.getElementById('f-time').value='';
   document.getElementById('ninp').value='';
-  document.getElementById('charisma-bar').style.display='none';
   fadeTo(()=>show('title-screen'));
 }
+
+// ═══════════════════════════════════════════
+//  FORM SCREEN
+// ═══════════════════════════════════════════
+document.querySelectorAll('.food-btn').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    document.querySelectorAll('.food-btn').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel');
+    selectedFood=btn.dataset.food;
+  });
+});
+
+document.getElementById('form-back-btn').addEventListener('click',e=>{
+  e.stopPropagation();
+  fadeTo(()=>show('ending-screen'));
+});
+
+['f-date','f-time'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>e.stopPropagation());
+});
+
+document.getElementById('send-btn').addEventListener('click',e=>{
+  e.stopPropagation();
+  const dateVal=document.getElementById('f-date').value;
+  const timeVal=document.getElementById('f-time').value;
+  const errEl=document.getElementById('form-err');
+
+  if(!dateVal||!timeVal||!selectedFood){
+    errEl.style.display='block';
+    errEl.style.animation='none';
+    requestAnimationFrame(()=>{ errEl.style.animation='shake .3s ease'; });
+    setTimeout(()=>{ errEl.style.display='none'; },2800);
+    return;
+  }
+  errEl.style.display='none';
+
+  const [y,m,d]=dateVal.split('-').map(Number);
+  const dt=new Date(y,m-1,d);
+  const dias=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+  const meses=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const dataFmt=`${dias[dt.getDay()]}, ${String(d).padStart(2,'0')} de ${meses[m-1]} de ${y}`;
+
+  const msg=
+    `Oi! 💕\n\n`+
+    `Encontro confirmado! 🎉\n\n`+
+    `📅 Data: ${dataFmt}\n`+
+    `⏰ Horário: ${timeVal}\n`+
+    `🍽️ Culinária: ${selectedFood}\n\n`+
+    `Mal posso esperar! ✨❤️`;
+
+  const url=`https://wa.me/5535997623376?text=${encodeURIComponent(msg)}`;
+  window.open(url,'_blank');
+  burst(18);
+});
 
 // ═══════════════════════════════════════════
 //  PARTICLES
